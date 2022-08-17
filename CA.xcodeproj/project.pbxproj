@@ -190,11 +190,11 @@
 		37A5A64E28A4CDCC0053DCE2 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				37D5C51028AC9DC7001A6785 /* Components */,
 				372F7BAB28AAA0A200D01A84 /* Calendar */,
 				37AA918128A767A9001E4852 /* Today */,
 				37A5A65F28A5C7C30053DCE2 /* Lunch */,
 				37A5A63928A3986E0053DCE2 /* Settings */,
-				372F7BBB28AAE25600D01A84 /* RefreshableView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -268,6 +268,14 @@
 				377C5B0C28AB72B700B94052 /* TodayView.swift */,
 			);
 			path = Today;
+			sourceTree = "<group>";
+		};
+		37D5C51028AC9DC7001A6785 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				372F7BBB28AAE25600D01A84 /* RefreshableView.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

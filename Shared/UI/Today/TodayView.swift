@@ -29,7 +29,7 @@ struct TodayView: View {
     var body: some View {
         NavigationView {
             RefreshableView {
-                VStack {
+                LazyVStack {
                     TodayHeaderView(letterDay: $letterDay)
                     LunchPreviewView(menuItems: $menuItems, selectedDate: Binding.constant(Date()))
                     CalendarDetailView(events: $events, selectedDate: Binding.constant(Date()))

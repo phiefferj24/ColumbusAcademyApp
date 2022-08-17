@@ -12,6 +12,8 @@ struct TodayHeaderView: View {
     let context = CIContext()
     let filter = CIFilter.qrCodeGenerator()
     
+    @AppStorage("app.user.quickpin") var quickpin: String?
+    
     fileprivate func generateQRCode(_ string: String) -> Image {
         filter.message = Data(string.utf8)
         if let outputImage = filter.outputImage {
@@ -24,19 +26,21 @@ struct TodayHeaderView: View {
     
     @Binding var letterDay: String?
     let formatter = DateFormatter("EEEE, MMMM d")
-    
+
     var body: some View {
         HStack {
-            generateQRCode("0474")
-                .resizable()
-                .scaledToFit()
-                .cornerRadius(10)
-                .padding(5)
-                .overlay {
-                    RoundedRectangle(cornerRadius: 10).stroke(Color.accentColor, lineWidth: 5)
-                        .padding(5)
-                }
-                .frame(width: 200, height: 200)
+            if let quickpin = quickpin, quickpin.count == 4, Int(quickpin) != nil {
+                generateQRCode(quickpin)
+                    .resizable()
+                    .scaledToFit()
+                    .cornerRadius(10)
+                    .padding(5)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 10).stroke(Color.accentColor, lineWidth: 5)
+                            .padding(5)
+                    }
+                    .frame(width: 200, height: 200)
+            }
             VStack(alignment: .leading) {
                 Text(letterDay ?? "...")
                     .font(.system(size: 60))
