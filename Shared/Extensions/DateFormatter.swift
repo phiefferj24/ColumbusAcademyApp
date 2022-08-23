@@ -8,8 +8,11 @@
 import Foundation
 
 extension DateFormatter {
-    convenience init(_ format: String) {
+    convenience init(_ format: String, timeZone: TimeZone? = nil) {
         self.init()
         self.dateFormat = format
+        if let timeZone = timeZone {
+            self.timeZone = timeZone
+        }
     }
 }

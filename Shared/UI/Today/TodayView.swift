@@ -7,72 +7,90 @@
 
 import Foundation
 import SwiftUI
+import Introspect
 
 struct TodayView: View {
-    
-    @State var letterDay: String?
-    
-    @State var events: Result<[Date: [Event]], Error>?
-    @State var calendars: Result<MySchoolAppCalendarList, Error>?
-    @State var menuItems: Result<SageDiningMenuItems, Error>?
-    
-    @AppStorage("app.calendar.selections") var selectionData: Data?
-    
-    @State var selections: [String: [String: Bool]] = [:]
-    
-    init() {
-        if let selectionData = selectionData, let selections = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(selectionData) as? [String: [String: Bool]] {
-            self.selections = selections
-        }
-    }
+    @StateObject var todayViewModel = TodayViewModel()
     
     var body: some View {
         NavigationView {
-            RefreshableView {
+            ScrollView {
                 LazyVStack {
-                    TodayHeaderView(letterDay: $letterDay)
-                    LunchPreviewView(menuItems: $menuItems, selectedDate: Binding.constant(Date()))
-                    CalendarDetailView(events: $events, selectedDate: Binding.constant(Date()))
+                    TodayHeaderView(letterDay: $todayViewModel.letterDay)
+                    ScheduleView(schedule: $todayViewModel.schedule)
+                    LunchPreviewView(menuItems: $todayViewModel.menuItems, selectedDate: Binding.constant(Date().start()))
+                    CalendarDetailView(events: $todayViewModel.events, selectedDate: Binding.constant(Date().start()))
                 }.navigationBarTitleDisplayMode(.inline)
-            }.refreshable {
-                await refreshCalendars(from: Date().startOfMonth(), to: Date().startOfNextMonth(), refresh: true)
-                await refreshEvents(from: Calendar.current.startOfDay(for: Date()), to: Calendar.current.startOfDay(for: Date() + 86400), refresh: true)
-                await refreshLetterDay(refresh: true)
-                await refreshMenuItems(on: Date(), refresh: true)
+            }.introspectScrollView { scrollView in
+                scrollView.refreshControl = todayViewModel.refreshControl
             }
         }.task {
-            await refreshCalendars(from: Date().startOfMonth(), to: Date().startOfNextMonth())
-            await refreshEvents(from: Calendar.current.startOfDay(for: Date()), to: Calendar.current.startOfDay(for: Date() + 86400))
-            await refreshLetterDay()
-            await refreshMenuItems(on: Date())
-        }.onChange(of: selectionData) { newValue in
-            if let selectionData = newValue, let selections = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(selectionData) as? [String: [String: Bool]] {
-                self.selections = selections
+            await todayViewModel.refreshCalendars(from: Date().startOfMonth(), to: Date().startOfNextMonth())
+            await todayViewModel.refreshEvents(from: Date().start(), to: Date().start() + 86400)
+            await todayViewModel.refreshLetterDay()
+            await todayViewModel.refreshSchedule(for: Date().start())
+            await todayViewModel.refreshMenuItems(on: Date().start())
+        }
+    }
+}
+
+@MainActor class TodayViewModel: ObservableObject {
+    @Published var letterDay: String?
+    
+    @Published var events: Result<[Date: [Event]], Error>?
+    @Published var calendars: Result<MySchoolAppCalendarList, Error>?
+    @Published var schedule: Result<MySchoolAppScheduleList, Error>?
+    @Published var menuItems: Result<SageDiningMenuItems, Error>?
+    
+    @AppStorage("app.calendar.selections") var selections: Storable<[String: [String: Bool]]> = Storable([String: [String: Bool]]())
+    
+    @Published var refreshControl = UIRefreshControl()
+    
+    init() {
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+    }
+    
+    @objc func refresh() {
+        Task { [weak self] in
+            if let self = self {
+                await self.refreshCalendars(from: Date().startOfMonth(), to: Date().startOfNextMonth(), refresh: true)
+                await self.refreshEvents(from: Date().start(), to: Date().start() + 86400, refresh: true)
+                await self.refreshLetterDay(refresh: true)
+                await self.refreshSchedule(for: Date().start(), refresh: true)
+                await self.refreshMenuItems(on: Date().start(), refresh: true)
+                self.refreshControl.endRefreshing()
             }
         }
     }
-    
-    fileprivate func refreshLetterDay(refresh: Bool = false) async {
+
+    func refreshCalendars(from start: Date, to end: Date, refresh: Bool = false) async {
         do {
-            guard let calendars = try? calendars?.get() else { return }
+            let calendars = try await MySchoolAppAPI.shared.getCalendars(from: start, to: end, refresh: refresh)
             for calendar in calendars {
-                for filter in calendar.filters ?? [] {
-                    if filter.filterName == "Master Calendar" {
-                        let letterDays = try await MySchoolAppAPI.shared.getEvents(from: Date(), to: Date().addingTimeInterval(86400), for: [filter.calendarId], refresh: true, nocache: true)
-                        if let letterDay = letterDays.first(where: { $0.title.range(of: "^[A-F] Day$", options: .regularExpression) != nil }) {
-                            self.letterDay = letterDay.title
-                        }
-                        return
+                if selections.value[calendar.calendarId] == nil {
+                    selections.value[calendar.calendarId] = [:]
+                    for filter in calendar.filters ?? [] {
+                        selections.value[calendar.calendarId]![filter.calendarId] = filter.selected ?? false
                     }
                 }
             }
-        } catch {}
+            selections = Storable(selections.value)
+            self.calendars = .success(calendars)
+        } catch {
+            calendars = .failure(error)
+        }
     }
-    
-    fileprivate func refreshEvents(from start: Date, to end: Date, refresh: Bool = false) async {
+    func refreshMenuItems(for meal: String = "Lunch", on date: Date, menu: String? = nil, refresh: Bool = false) async {
+        do {
+            self.menuItems = .success(try await SageDiningAPI.shared.getMenuItems(for: meal, on: date, menu: menu, refresh: refresh))
+        } catch {
+            self.menuItems = .failure(error)
+        }
+    }
+    func refreshEvents(from start: Date, to end: Date, refresh: Bool = false) async {
         guard let calendars = try? calendars?.get() else { return }
         var selectedCalendars: [String] = []
-        selections.forEach { selection in
+        selections.value.forEach { selection in
             selection.value.forEach { calendar in
                 if calendar.value {
                     selectedCalendars.append(calendar.key)
@@ -105,27 +123,27 @@ struct TodayView: View {
             events = .failure(error)
         }
     }
-    
-    fileprivate func refreshMenuItems(for meal: String = "Lunch", on date: Date, menu: String? = nil, refresh: Bool = false) async {
+    func refreshLetterDay(refresh: Bool = false) async {
         do {
-            self.menuItems = .success(try await SageDiningAPI.shared.getMenuItems(for: meal, on: date, menu: menu, refresh: refresh))
-        } catch {
-            self.menuItems = .failure(error)
-        }
-    }
-    
-    fileprivate func refreshCalendars(from start: Date, to end: Date, refresh: Bool = false) async {
-        do {
-            let calendars = try await MySchoolAppAPI.shared.getCalendars(from: start, to: end, refresh: refresh)
+            guard let calendars = try? calendars?.get() else { return }
             for calendar in calendars {
-                selections[calendar.calendarId] = [:]
                 for filter in calendar.filters ?? [] {
-                    selections[calendar.calendarId]![filter.calendarId] = filter.selected ?? false
+                    if filter.filterName == "Master Calendar" {
+                        let letterDays = try await MySchoolAppAPI.shared.getEvents(from: Date(), to: Date().addingTimeInterval(86400), for: [filter.calendarId], refresh: true, nocache: true)
+                        if let letterDay = letterDays.first(where: { $0.title.range(of: "^[A-F] Day$", options: .regularExpression) != nil }) {
+                            self.letterDay = letterDay.title
+                        }
+                        return
+                    }
                 }
             }
-            self.calendars = .success(calendars)
+        } catch {}
+    }
+    func refreshSchedule(for date: Date, refresh: Bool = false) async {
+        do {
+            self.schedule = .success(try await MySchoolAppAPI.shared.getSchedule(for: date, refresh: refresh))
         } catch {
-            calendars = .failure(error)
+            self.schedule = .failure(error)
         }
     }
 }

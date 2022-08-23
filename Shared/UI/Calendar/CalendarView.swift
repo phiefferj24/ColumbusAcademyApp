@@ -6,76 +6,31 @@
 //
 
 import SwiftUI
+import Introspect
 
 struct CalendarView: View {
-    @State var selectedDate = Date()
-    @State var selectedMonth = Calendar.current.component(.month, from: Date())
-    @State var selectedYear = Calendar.current.component(.year, from: Date())
-    
-    @State var detailViewPresented = false
-    
-    @State var events: Result<[Date: [Event]], Error>?
-    
-    @State var calendars: Result<MySchoolAppCalendarList, Error>?
-    
-    @AppStorage("app.calendar.selections") var selectionData: Data?
-    @State var selections: [String: [String: Bool]] = [:]
-
-    @State var filterViewPresented = false
-    
-    @State var currentCalendarTask: Task<Void, Error>?
-    @State var currentMenuTask: Task<Void, Error>?
-    
-    @State var menuItems: Result<SageDiningMenuItems, Error>?
+    @StateObject var calendarViewModel = CalendarViewModel()
     
     let columns = [GridItem](repeating: GridItem(.flexible()), count: 7)
     
-    init() {
-        if let selectionData = selectionData, let selections = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(selectionData) as? [String: [String: Bool]] {
-            self.selections = selections
-        }
-    }
-    
     var body: some View {
         NavigationView {
-            switch calendars {
-            case .success(let calendars): RefreshableView {
+            switch calendarViewModel.calendars {
+            case .success(_): ScrollView {
                 VStack {
                     HStack {
                         Button(action: {
-                            if (selectedMonth == 1) {
-                                selectedYear -= 1
-                                selectedMonth = 12
-                            } else {
-                                selectedMonth -= 1
-                            }
-                            currentCalendarTask?.cancel()
-                            currentCalendarTask = Task {
-                                if let date = Calendar.current.date(from: DateComponents(year: selectedYear, month: selectedMonth)) {
-                                    await refreshEvents(from: date.startOfMonth(), to: date.startOfNextMonth(), refresh: true)
-                                }
-                            }
+                            calendarViewModel.decrementMonth()
                         }) {
                             Image(systemName: "chevron.left.circle")
                         }.padding()
                         Spacer()
-                        Text(verbatim: "\(Calendar.current.monthSymbols[selectedMonth - 1]) \(selectedYear)")
+                        Text(verbatim: "\(Calendar.current.monthSymbols[calendarViewModel.selectedMonth - 1]) \(calendarViewModel.selectedYear)")
                             .font(.title2)
                             .fontWeight(.bold)
                         Spacer()
                         Button(action: {
-                            if (selectedMonth == 12) {
-                                selectedYear += 1
-                                selectedMonth = 1
-                            } else {
-                                selectedMonth += 1
-                            }
-                            currentCalendarTask?.cancel()
-                            currentCalendarTask = Task {
-                                if let date = Calendar.current.date(from: DateComponents(year: selectedYear, month: selectedMonth)) {
-                                    await refreshEvents(from: date.startOfMonth(), to: date.startOfNextMonth(), refresh: true)
-                                }
-                            }
+                            calendarViewModel.incrementMonth()
                         }) {
                             Image(systemName: "chevron.right.circle")
                         }.padding()
@@ -84,24 +39,30 @@ struct CalendarView: View {
                         ForEach(Calendar.current.veryShortStandaloneWeekdaySymbols.enumerated().map({ ($0.offset, $0.element) }), id: \.0) { symbol in
                             Text(symbol.1).fontWeight(.bold)
                         }
-                    }
+                    }.padding(EdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10))
                     Divider()
                     LazyVGrid(columns: columns) {
-                        ForEach(getDatesInCurrentMonth(), id: \.0) { (date, inCurrentMonth) in
+                        ForEach(calendarViewModel.getDatesInCurrentMonth(), id: \.0) { (date, inCurrentMonth) in
                             Button(action: {
-                                detailViewPresented = true
-                                selectedDate = date
+                                if date == calendarViewModel.selectedDate && calendarViewModel.detailViewPresented {
+                                    calendarViewModel.detailViewPresented = false
+                                    return
+                                }
+                                calendarViewModel.detailViewPresented = true
+                                calendarViewModel.selectedDate = date
+                                calendarViewModel.dateChanged()
                                 if !inCurrentMonth {
-                                    selectedYear = Calendar.current.component(.year, from: date)
-                                    selectedMonth = Calendar.current.component(.month, from: date)
+                                    calendarViewModel.selectedYear = Calendar.current.component(.year, from: date)
+                                    calendarViewModel.selectedMonth = Calendar.current.component(.month, from: date)
+                                    calendarViewModel.monthChanged()
                                 }
                             }) {
                                 ZStack {
                                     Circle()
-                                        .foregroundColor(date == selectedDate ? .red : .clear)
+                                        .foregroundColor(date == calendarViewModel.selectedDate && calendarViewModel.detailViewPresented ? .accentColor : .clear)
                                     Text(String(Calendar.current.component(.day, from: date)))
                                         .foregroundColor(
-                                            date == selectedDate ? .white :
+                                            date == calendarViewModel.selectedDate && calendarViewModel.detailViewPresented ? .white :
                                                 (Calendar.current.isDateInToday(date) ? .red :
                                                 (inCurrentMonth ? .primary : .secondary))
                                         )
@@ -110,37 +71,29 @@ struct CalendarView: View {
                             }
                                 
                         }
-                    }
-                    if detailViewPresented {
-                        LunchPreviewView(menuItems: $menuItems, selectedDate: $selectedDate)
-                        CalendarDetailView(events: $events, selectedDate: $selectedDate)
+                    }.padding(EdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10))
+                    if calendarViewModel.detailViewPresented {
+                        ScheduleView(schedule: $calendarViewModel.schedule)
+                        LunchPreviewView(menuItems: $calendarViewModel.menuItems, selectedDate: $calendarViewModel.selectedDate)
+                        CalendarDetailView(events: $calendarViewModel.events, selectedDate: $calendarViewModel.selectedDate)
                     }
                     Spacer()
                 }
-            }.navigationBarTitleDisplayMode(.inline)
-                .sheet(isPresented: $filterViewPresented) {
-                CalendarFilterView(calendars: calendars, selections: $selections, isPresented: $filterViewPresented)
-            }.toolbar {
+            }.introspectScrollView { scrollView in
+                scrollView.refreshControl = calendarViewModel.refreshControl
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: { filterViewPresented.toggle() }) {
+                    NavigationLink(destination: CalendarFilterView(calendarViewModel: calendarViewModel)) {
                         Image(systemName: "line.3.horizontal.decrease")
                     }
                 }
-            }.refreshable {
-                if let date = Calendar.current.date(from: DateComponents(year: selectedYear, month: selectedMonth)) {
-                    await refreshCalendars(from: date.startOfMonth(), to: date.startOfNextMonth(), refresh: true)
-                    await refreshEvents(from: date.startOfMonth(), to: date.startOfNextMonth(), refresh: true)
-                    await refreshMenuItems(on: selectedDate, refresh: true)
-                }
             }
-            case .failure(_): RefreshableView {
+            case .failure(_): ScrollView {
                 Text("Error. Pull down to retry.")
-            }.refreshable {
-                if let date = Calendar.current.date(from: DateComponents(year: selectedYear, month: selectedMonth)) {
-                    await refreshCalendars(from: date.startOfMonth(), to: date.startOfNextMonth(), refresh: true)
-                    await refreshEvents(from: date.startOfMonth(), to: date.startOfNextMonth(), refresh: true)
-                    await refreshMenuItems(on: selectedDate, refresh: true)
-                }
+            }.introspectScrollView { scrollView in
+                scrollView.refreshControl = calendarViewModel.refreshControl
             }
             case nil: VStack {
                 Text("Loading...")
@@ -148,57 +101,82 @@ struct CalendarView: View {
             }
             }
         }.task {
-            if let date = Calendar.current.date(from: DateComponents(year: selectedYear, month: selectedMonth)) {
-                await refreshCalendars(from: date.startOfMonth(), to: date.startOfNextMonth())
-                await refreshEvents(from: date.startOfMonth(), to: date.startOfNextMonth())
-                await refreshMenuItems(on: selectedDate)
-            }
-        }.onChange(of: selectedDate) { selectedDate in
-            currentMenuTask?.cancel()
-            currentMenuTask = Task {
-                menuItems = nil
-                await refreshMenuItems(on: selectedDate)
-            }
-        }.onChange(of: selections) { newValue in
-            if let selectionData = try? NSKeyedArchiver.archivedData(withRootObject: newValue, requiringSecureCoding: false) {
-                self.selectionData = selectionData
+            if let date = Calendar.current.date(from: DateComponents(year: calendarViewModel.selectedYear, month: calendarViewModel.selectedMonth)) {
+                await calendarViewModel.refreshCalendars(from: date.startOfMonth(), to: date.startOfNextMonth())
+                await calendarViewModel.refreshEvents(from: date.startOfMonth(), to: date.startOfNextMonth())
+                await calendarViewModel.refreshSchedule(for: calendarViewModel.selectedDate)
+                await calendarViewModel.refreshMenuItems(on: calendarViewModel.selectedDate)
             }
         }
     }
+}
+
+@MainActor class CalendarViewModel: ObservableObject {
+    @Published var selectedDate = Date()
+    @Published var selectedMonth = Calendar.current.component(.month, from: Date())
+    @Published var selectedYear = Calendar.current.component(.year, from: Date())
     
-    fileprivate func refreshMenuItems(for meal: String = "Lunch", on date: Date, menu: String? = nil, refresh: Bool = false) async {
-        do {
-            self.menuItems = .success(try await SageDiningAPI.shared.getMenuItems(for: meal, on: date, menu: menu, refresh: refresh))
-        } catch {
-            self.menuItems = .failure(error)
-        }
+    @Published var detailViewPresented = false
+    
+    @Published var events: Result<[Date: [Event]], Error>?
+    
+    @Published var calendars: Result<MySchoolAppCalendarList, Error>?
+    
+    @Published var schedule: Result<MySchoolAppScheduleList, Error>?
+    
+    @AppStorage("app.calendar.selections") var selections: Storable<[String: [String: Bool]]> = Storable([String: [String: Bool]]())
+    
+    @Published var currentCalendarTask: Task<Void, Error>?
+    @Published var currentMenuTask: Task<Void, Error>?
+    
+    @Published var menuItems: Result<SageDiningMenuItems, Error>?
+    
+    @Published var refreshControl = UIRefreshControl()
+    
+    init() {
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
     }
     
-    fileprivate func refreshCalendars(from start: Date, to end: Date, refresh: Bool = false) async {
-        do {
-            let calendars = try await MySchoolAppAPI.shared.getCalendars(from: start, to: end, refresh: refresh)
-            for calendar in calendars {
-                selections[calendar.calendarId] = [:]
-                for filter in calendar.filters ?? [] {
-                    selections[calendar.calendarId]![filter.calendarId] = filter.selected ?? false
+    @objc func refresh() {
+        Task { [weak self] in
+            if let self = self {
+                if let date = Calendar.current.date(from: DateComponents(year: self.selectedYear, month: self.selectedMonth)) {
+                    await self.refreshCalendars(from: date.startOfMonth(), to: date.startOfNextMonth(), refresh: true)
+                    await self.refreshEvents(from: date.startOfMonth(), to: date.startOfNextMonth(), refresh: true)
+                    await self.refreshSchedule(for: self.selectedDate, refresh: true)
+                    await self.refreshMenuItems(on: self.selectedDate, refresh: true)
                 }
+                self.refreshControl.endRefreshing()
             }
-            self.calendars = .success(calendars)
-        } catch {
-            calendars = .failure(error)
         }
     }
+
+    func getDatesInCurrentMonth() -> [(Date, Bool)] {
+        var dates: [(Date, Bool)] = []
+        guard var dateOn = Calendar.current.date(from: DateComponents(year: selectedYear, month: selectedMonth)) else { return [] }
+        while Calendar.current.component(.weekday, from: dateOn) != 1 {
+            dateOn = Calendar.current.date(byAdding: .day, value: -1, to: dateOn)!
+        }
+        while Calendar.current.component(.weekday, from: dateOn) != 1
+                || Calendar.current.component(.month, from: dateOn) != (selectedMonth == 12 ? 1 : selectedMonth + 1)
+                || Calendar.current.component(.year, from: dateOn) != (selectedMonth == 12 ? selectedYear + 1 : selectedYear) {
+            dates.append((dateOn, Calendar.current.component(.month, from: dateOn) == selectedMonth))
+            dateOn = Calendar.current.date(byAdding: .day, value: 1, to: dateOn)!
+        }
+        return dates
+    }
     
-    fileprivate func refreshEvents(from start: Date, to end: Date, refresh: Bool = false) async {
+    func refreshEvents(from start: Date, to end: Date, refresh: Bool = false) async {
         guard let calendars = try? calendars?.get() else { return }
         var selectedCalendars: [String] = []
-        selections.forEach { selection in
+        selections.value.forEach { selection in
             selection.value.forEach { calendar in
                 if calendar.value {
                     selectedCalendars.append(calendar.key)
                 }
             }
         }
+        selections = Storable(selections.value)
         do {
             let events = try await MySchoolAppAPI.shared.getEvents(from: start, to: end, for: selectedCalendars, refresh: refresh)
             let mappedEvents = try events.map { event -> Event in
@@ -226,26 +204,92 @@ struct CalendarView: View {
         }
     }
     
-    fileprivate func getDatesInCurrentMonth() -> [(Date, Bool)] {
-        var dates: [(Date, Bool)] = []
-        guard var dateOn = Calendar.current.date(from: DateComponents(year: selectedYear, month: selectedMonth)) else { return [] }
-        while Calendar.current.component(.weekday, from: dateOn) != 1 {
-            dateOn = Calendar.current.date(byAdding: .day, value: -1, to: dateOn)!
+    func refreshCalendars(from start: Date, to end: Date, refresh: Bool = false) async {
+        do {
+            let calendars = try await MySchoolAppAPI.shared.getCalendars(from: start, to: end, refresh: refresh)
+            for calendar in calendars {
+                if selections.value[calendar.calendarId] == nil {
+                    selections.value[calendar.calendarId] = [:]
+                    for filter in calendar.filters ?? [] {
+                        selections.value[calendar.calendarId]![filter.calendarId] = filter.selected ?? false
+                    }
+                }
+            }
+            self.calendars = .success(calendars)
+        } catch {
+            calendars = .failure(error)
         }
-        while Calendar.current.component(.weekday, from: dateOn) != 1
-                || Calendar.current.component(.month, from: dateOn) != (selectedMonth == 12 ? 1 : selectedMonth + 1)
-                || Calendar.current.component(.year, from: dateOn) != (selectedMonth == 12 ? selectedYear + 1 : selectedYear) {
-            dates.append((dateOn, Calendar.current.component(.month, from: dateOn) == selectedMonth))
-            dateOn = Calendar.current.date(byAdding: .day, value: 1, to: dateOn)!
+    }
+    
+    func refreshMenuItems(for meal: String = "Lunch", on date: Date, menu: String? = nil, refresh: Bool = false) async {
+        do {
+            self.menuItems = .success(try await SageDiningAPI.shared.getMenuItems(for: meal, on: date, menu: menu, refresh: refresh))
+        } catch {
+            self.menuItems = .failure(error)
         }
-        return dates
     }
-}
-
-struct CalendarView_Previews: PreviewProvider {
-    static var previews: some View {
-        CalendarView()
+    
+    func refreshSchedule(for date: Date, refresh: Bool = false) async {
+        do {
+            self.schedule = .success(try await MySchoolAppAPI.shared.getSchedule(for: date, refresh: refresh))
+        } catch {
+            self.schedule = .failure(error)
+        }
     }
+    
+    func incrementMonth() {
+        if (selectedMonth == 12) {
+            selectedYear += 1
+            selectedMonth = 1
+        } else {
+            selectedMonth += 1
+        }
+        monthChanged()
+    }
+    
+    func decrementMonth() {
+        if (selectedMonth == 1) {
+            selectedYear -= 1
+            selectedMonth = 12
+        } else {
+            selectedMonth -= 1
+        }
+        monthChanged()
+    }
+    
+    func monthChanged() {
+        currentCalendarTask?.cancel()
+        currentCalendarTask = Task {
+            if let date = Calendar.current.date(from: DateComponents(year: selectedYear, month: selectedMonth)) {
+                await refreshEvents(from: date.startOfMonth(), to: date.startOfNextMonth(), refresh: true)
+            }
+        }
+    }
+    
+    func dateChanged() {
+        currentMenuTask?.cancel()
+        currentMenuTask = Task {
+            menuItems = nil
+            schedule = nil
+            await refreshSchedule(for: selectedDate)
+            await refreshMenuItems(on: selectedDate)
+        }
+    }
+    
+    func binding(section: String, row: String) -> Binding<Bool> {
+       return .init(get: { [weak self] in
+           return self?.selections.value[section]?[row] ?? false
+       }, set: { [weak self] in
+           if let self = self {
+               self.selections.value[section]![row] = $0
+               Task {
+                   await MainActor.run {
+                       self.selections = Storable(self.selections.value)
+                   }
+               }
+           }
+       })
+   }
 }
 
 struct Event {

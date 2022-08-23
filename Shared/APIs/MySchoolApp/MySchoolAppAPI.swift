@@ -15,10 +15,8 @@ class MySchoolAppAPIError: Error, CustomStringConvertible {
     }
 }
 
-class MySchoolAppAPI: ObservableObject {
+class MySchoolAppAPI {
     static let shared = MySchoolAppAPI()
-    
-    @Published var needsUserLogin = false
 
     var observers: [NSObjectProtocol] = []
 
@@ -41,7 +39,7 @@ class MySchoolAppAPI: ObservableObject {
                 try? await self?.renewSession()
             }
         }
-        observers.append(NotificationCenter.default.addObserver(forName: Notification.Name("api.myschoolapp.cookies"), object: nil, queue: nil) { [weak self] _ in
+        observers.append(NotificationCenter.default.addObserver(forName: Notification.Name("api.myschoolapp.cookies"), object: nil, queue: OperationQueue.main) { [weak self] _ in
             if let cookies = HTTPCookie.get("api.myschoolapp.cookies") {
                 self?.cookies = cookies
             }
@@ -63,7 +61,7 @@ class MySchoolAppAPI: ObservableObject {
         let (_, response) = try await URLSession.shared.data(for: request)
         guard let response = response as? HTTPURLResponse else { throw MySchoolAppAPIError("Could not parse response.") }
         if response.statusCode == 403 || response.statusCode == 401 {
-            self.needsUserLogin = true
+            NotificationCenter.default.post(name: Notification.Name("api.myschoolapp.needsUserLogin"), object: nil)
             throw MySchoolAppAPIError("Unauthorized request.")
         }
         guard let headers = response.allHeaderFields as? [String : String] else { throw MySchoolAppAPIError("Could not get response cookies.") }
@@ -84,7 +82,7 @@ class MySchoolAppAPI: ObservableObject {
         let (data, response) = try await URLSession.shared.data(for: request)
         guard let response = response as? HTTPURLResponse else { throw MySchoolAppAPIError("Could not parse response.") }
         if response.statusCode == 403 || response.statusCode == 401 {
-            self.needsUserLogin = true
+            NotificationCenter.default.post(name: Notification.Name("api.myschoolapp.needsUserLogin"), object: nil)
             throw MySchoolAppAPIError("Unauthorized request.")
         }
         let calendarList = try decoder.decode(MySchoolAppCalendarList.self, from: data)
@@ -107,7 +105,7 @@ class MySchoolAppAPI: ObservableObject {
         let (data, response) = try await URLSession.shared.data(for: request)
         guard let response = response as? HTTPURLResponse else { throw MySchoolAppAPIError("Could not parse response.") }
         if response.statusCode == 403 || response.statusCode == 401 {
-            self.needsUserLogin = true
+            NotificationCenter.default.post(name: Notification.Name("api.myschoolapp.needsUserLogin"), object: nil)
             throw MySchoolAppAPIError("Unauthorized request.")
         }
         let eventList = try decoder.decode(MySchoolAppEventList.self, from: data)
@@ -115,6 +113,29 @@ class MySchoolAppAPI: ObservableObject {
             _eventList[DateInterval(start: start, end: end)] = Cache(eventList)
         }
         return eventList
+    }
+    
+    fileprivate var _scheduleList: [Date: Cache<MySchoolAppScheduleList>?] = [:]
+    
+    func getSchedule(for date: Date, refresh: Bool = false, nocache: Bool = false) async throws -> MySchoolAppScheduleList {
+        if !refresh, let scheduleList = _scheduleList[date], let value = scheduleList?.value {
+            return value
+        }
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromPascalCase
+        guard let url = URL(string: "https://columbusacademy.myschoolapp.com/api/schedule/MyDayCalendarStudentList/?scheduleDate=\(urlDateFormatter.string(from: date))&personaId=2") else { throw MySchoolAppAPIError("URL creation failed.") }
+        let request = URLRequest(url: url, cookies: cookies)
+        let (data, response) = try await URLSession.shared.data(for: request)
+        guard let response = response as? HTTPURLResponse else { throw MySchoolAppAPIError("Could not parse response.") }
+        if response.statusCode == 403 || response.statusCode == 401 {
+            NotificationCenter.default.post(name: Notification.Name("api.myschoolapp.needsUserLogin"), object: nil)
+            throw MySchoolAppAPIError("Unauthorized request.")
+        }
+        let scheduleList = try decoder.decode(MySchoolAppScheduleList.self, from: data)
+        if !nocache {
+            _scheduleList[date] = Cache(scheduleList)
+        }
+        return scheduleList
     }
 }
 

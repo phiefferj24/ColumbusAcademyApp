@@ -23,8 +23,6 @@
 		372F7BB728AAD29700D01A84 /* URLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372F7BB528AAD29700D01A84 /* URLRequest.swift */; };
 		372F7BB928AAD71700D01A84 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372F7BB828AAD71700D01A84 /* Color.swift */; };
 		372F7BBA28AAD71700D01A84 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372F7BB828AAD71700D01A84 /* Color.swift */; };
-		372F7BBC28AAE25700D01A84 /* RefreshableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372F7BBB28AAE25600D01A84 /* RefreshableView.swift */; };
-		372F7BBD28AAE25700D01A84 /* RefreshableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372F7BBB28AAE25600D01A84 /* RefreshableView.swift */; };
 		377C5B0128AB286C00B94052 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377C5B0028AB286C00B94052 /* DateFormatter.swift */; };
 		377C5B0228AB286C00B94052 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377C5B0028AB286C00B94052 /* DateFormatter.swift */; };
 		377C5B0428AB2D5300B94052 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377C5B0328AB2D5300B94052 /* Date.swift */; };
@@ -65,6 +63,19 @@
 		37A5A67228A5FF600053DCE2 /* JSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A5A67028A5FF600053DCE2 /* JSONDecoder.swift */; };
 		37AA918328A767C5001E4852 /* TodayHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37AA918228A767C5001E4852 /* TodayHeaderView.swift */; };
 		37AA918428A767C5001E4852 /* TodayHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37AA918228A767C5001E4852 /* TodayHeaderView.swift */; };
+		37D5C51428ACB3B7001A6785 /* TwitterAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D5C51328ACB3B7001A6785 /* TwitterAPI.swift */; };
+		37D5C51728ACB4BB001A6785 /* TwitterTweets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D5C51628ACB4BB001A6785 /* TwitterTweets.swift */; };
+		37D5C51A28ACB972001A6785 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D5C51928ACB972001A6785 /* FeedView.swift */; };
+		37D5C51C28ACBB3E001A6785 /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D5C51B28ACBB3E001A6785 /* PostView.swift */; };
+		37D5C52128AD6D60001A6785 /* SwiftUIX in Frameworks */ = {isa = PBXBuildFile; productRef = 37D5C52028AD6D60001A6785 /* SwiftUIX */; };
+		37D5C52628AD8F76001A6785 /* TwitterUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D5C52528AD8F76001A6785 /* TwitterUser.swift */; };
+		37D5C52828AD9031001A6785 /* FeedSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D5C52728AD9031001A6785 /* FeedSettingsView.swift */; };
+		37D5C52F28AE0F61001A6785 /* Storable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D5C52E28AE0F61001A6785 /* Storable.swift */; };
+		37D5C53228AE2439001A6785 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 37D5C53128AE2439001A6785 /* Introspect */; };
+		37F9D53628B41B8E00DAA95E /* MySchoolAppScheduleList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F9D53528B41B8E00DAA95E /* MySchoolAppScheduleList.swift */; };
+		37F9D53728B41B8E00DAA95E /* MySchoolAppScheduleList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F9D53528B41B8E00DAA95E /* MySchoolAppScheduleList.swift */; };
+		37F9D53928B41DE900DAA95E /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F9D53828B41DE900DAA95E /* ScheduleView.swift */; };
+		37F9D53A28B41DE900DAA95E /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F9D53828B41DE900DAA95E /* ScheduleView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -76,7 +87,6 @@
 		372F7BB228AACD2C00D01A84 /* CalendarDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDetailView.swift; sourceTree = "<group>"; };
 		372F7BB528AAD29700D01A84 /* URLRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRequest.swift; sourceTree = "<group>"; };
 		372F7BB828AAD71700D01A84 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
-		372F7BBB28AAE25600D01A84 /* RefreshableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshableView.swift; sourceTree = "<group>"; };
 		377C5B0028AB286C00B94052 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 		377C5B0328AB2D5300B94052 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		377C5B0628AB661E00B94052 /* LunchPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LunchPreviewView.swift; sourceTree = "<group>"; };
@@ -100,6 +110,15 @@
 		37A5A66C28A5CC880053DCE2 /* SageDiningMenuItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SageDiningMenuItems.swift; sourceTree = "<group>"; };
 		37A5A67028A5FF600053DCE2 /* JSONDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecoder.swift; sourceTree = "<group>"; };
 		37AA918228A767C5001E4852 /* TodayHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayHeaderView.swift; sourceTree = "<group>"; };
+		37D5C51328ACB3B7001A6785 /* TwitterAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwitterAPI.swift; sourceTree = "<group>"; };
+		37D5C51628ACB4BB001A6785 /* TwitterTweets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwitterTweets.swift; sourceTree = "<group>"; };
+		37D5C51928ACB972001A6785 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
+		37D5C51B28ACBB3E001A6785 /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
+		37D5C52528AD8F76001A6785 /* TwitterUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwitterUser.swift; sourceTree = "<group>"; };
+		37D5C52728AD9031001A6785 /* FeedSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedSettingsView.swift; sourceTree = "<group>"; };
+		37D5C52E28AE0F61001A6785 /* Storable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storable.swift; sourceTree = "<group>"; };
+		37F9D53528B41B8E00DAA95E /* MySchoolAppScheduleList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySchoolAppScheduleList.swift; sourceTree = "<group>"; };
+		37F9D53828B41DE900DAA95E /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +126,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37D5C52128AD6D60001A6785 /* SwiftUIX in Frameworks */,
+				37D5C53228AE2439001A6785 /* Introspect in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -190,6 +211,8 @@
 		37A5A64E28A4CDCC0053DCE2 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				37F9D53428B41A8B00DAA95E /* Schedule */,
+				37D5C51828ACB966001A6785 /* Feed */,
 				37D5C51028AC9DC7001A6785 /* Components */,
 				372F7BAB28AAA0A200D01A84 /* Calendar */,
 				37AA918128A767A9001E4852 /* Today */,
@@ -206,6 +229,7 @@
 				37A5A65928A4E40B0053DCE2 /* MySchoolAppSchoolContext.swift */,
 				37A5A65C28A4E47B0053DCE2 /* MySchoolAppContext.swift */,
 				372F7BA528A8D17700D01A84 /* MySchoolAppCalendarList.swift */,
+				37F9D53528B41B8E00DAA95E /* MySchoolAppScheduleList.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -222,9 +246,11 @@
 		37A5A66028A5C7D30053DCE2 /* APIs */ = {
 			isa = PBXGroup;
 			children = (
+				37D5C51128ACB39D001A6785 /* Twitter */,
 				37A5A66428A5C80D0053DCE2 /* SageDining */,
 				37A5A64D28A4CDBC0053DCE2 /* MySchoolApp */,
 				372F7B9F28A8C73900D01A84 /* Cache.swift */,
+				37D5C52E28AE0F61001A6785 /* Storable.swift */,
 			);
 			path = APIs;
 			sourceTree = "<group>";
@@ -273,9 +299,44 @@
 		37D5C51028AC9DC7001A6785 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				372F7BBB28AAE25600D01A84 /* RefreshableView.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		37D5C51128ACB39D001A6785 /* Twitter */ = {
+			isa = PBXGroup;
+			children = (
+				37D5C51528ACB4AC001A6785 /* Models */,
+				37D5C51328ACB3B7001A6785 /* TwitterAPI.swift */,
+			);
+			path = Twitter;
+			sourceTree = "<group>";
+		};
+		37D5C51528ACB4AC001A6785 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				37D5C51628ACB4BB001A6785 /* TwitterTweets.swift */,
+				37D5C52528AD8F76001A6785 /* TwitterUser.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		37D5C51828ACB966001A6785 /* Feed */ = {
+			isa = PBXGroup;
+			children = (
+				37D5C51928ACB972001A6785 /* FeedView.swift */,
+				37D5C51B28ACBB3E001A6785 /* PostView.swift */,
+				37D5C52728AD9031001A6785 /* FeedSettingsView.swift */,
+			);
+			path = Feed;
+			sourceTree = "<group>";
+		};
+		37F9D53428B41A8B00DAA95E /* Schedule */ = {
+			isa = PBXGroup;
+			children = (
+				37F9D53828B41DE900DAA95E /* ScheduleView.swift */,
+			);
+			path = Schedule;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -294,6 +355,10 @@
 			dependencies = (
 			);
 			name = "CA (iOS)";
+			packageProductDependencies = (
+				37D5C52028AD6D60001A6785 /* SwiftUIX */,
+				37D5C53128AE2439001A6785 /* Introspect */,
+			);
 			productName = "CA (iOS)";
 			productReference = 37A5A62228A3982E0053DCE2 /* CA.app */;
 			productType = "com.apple.product-type.application";
@@ -342,6 +407,10 @@
 				Base,
 			);
 			mainGroup = 37A5A61528A3982B0053DCE2;
+			packageReferences = (
+				37D5C51F28AD6D5F001A6785 /* XCRemoteSwiftPackageReference "SwiftUIX" */,
+				37D5C53028AE2439001A6785 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
+			);
 			productRefGroup = 37A5A62328A3982E0053DCE2 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -376,27 +445,34 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37D5C52828AD9031001A6785 /* FeedSettingsView.swift in Sources */,
 				377C5B0128AB286C00B94052 /* DateFormatter.swift in Sources */,
 				37A5A65028A4CDFA0053DCE2 /* MySchoolAppAPI.swift in Sources */,
 				37A5A63B28A3987B0053DCE2 /* SettingsView.swift in Sources */,
 				37A5A65D28A4E47C0053DCE2 /* MySchoolAppContext.swift in Sources */,
+				37F9D53928B41DE900DAA95E /* ScheduleView.swift in Sources */,
 				37A5A65A28A4E40B0053DCE2 /* MySchoolAppSchoolContext.swift in Sources */,
 				37A5A64428A4AFDD0053DCE2 /* WebView.swift in Sources */,
 				377C5B0428AB2D5300B94052 /* Date.swift in Sources */,
 				37A5A67128A5FF600053DCE2 /* JSONDecoder.swift in Sources */,
+				37D5C52F28AE0F61001A6785 /* Storable.swift in Sources */,
 				372F7BAD28AAA0B200D01A84 /* CalendarFilterView.swift in Sources */,
 				377C5B0A28AB67DC00B94052 /* Array.swift in Sources */,
+				37D5C51C28ACBB3E001A6785 /* PostView.swift in Sources */,
 				377C5B0D28AB72B700B94052 /* TodayView.swift in Sources */,
 				372F7BB328AACD2C00D01A84 /* CalendarDetailView.swift in Sources */,
 				37A5A64728A4B49E0053DCE2 /* LoginView.swift in Sources */,
 				377C5B0728AB661E00B94052 /* LunchPreviewView.swift in Sources */,
 				37AA918328A767C5001E4852 /* TodayHeaderView.swift in Sources */,
 				37A5A66D28A5CC880053DCE2 /* SageDiningMenuItems.swift in Sources */,
-				372F7BBC28AAE25700D01A84 /* RefreshableView.swift in Sources */,
 				37A5A65728A4E3EE0053DCE2 /* MySchoolAppEventList.swift in Sources */,
 				372F7BA028A8C73900D01A84 /* Cache.swift in Sources */,
+				37D5C51428ACB3B7001A6785 /* TwitterAPI.swift in Sources */,
 				372F7BB928AAD71700D01A84 /* Color.swift in Sources */,
 				372F7BB028AAADB300D01A84 /* CalendarView.swift in Sources */,
+				37D5C52628AD8F76001A6785 /* TwitterUser.swift in Sources */,
+				37F9D53628B41B8E00DAA95E /* MySchoolAppScheduleList.swift in Sources */,
+				37D5C51A28ACB972001A6785 /* FeedView.swift in Sources */,
 				37A5A66228A5C7EE0053DCE2 /* LunchDetailView.swift in Sources */,
 				372F7BB628AAD29700D01A84 /* URLRequest.swift in Sources */,
 				372F7BA628A8D17700D01A84 /* MySchoolAppCalendarList.swift in Sources */,
@@ -404,6 +480,7 @@
 				372F7B9D28A8C32400D01A84 /* HTTPCookie.swift in Sources */,
 				37A5A66A28A5CB280053DCE2 /* SageDiningVenueInformation.swift in Sources */,
 				37A5A66628A5C9660053DCE2 /* SageDiningAPI.swift in Sources */,
+				37D5C51728ACB4BB001A6785 /* TwitterTweets.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -415,6 +492,7 @@
 				37A5A65128A4CDFA0053DCE2 /* MySchoolAppAPI.swift in Sources */,
 				37A5A63C28A42F380053DCE2 /* SettingsView.swift in Sources */,
 				37A5A65E28A4E47C0053DCE2 /* MySchoolAppContext.swift in Sources */,
+				37F9D53728B41B8E00DAA95E /* MySchoolAppScheduleList.swift in Sources */,
 				37A5A65B28A4E40B0053DCE2 /* MySchoolAppSchoolContext.swift in Sources */,
 				37A5A64528A4AFDD0053DCE2 /* WebView.swift in Sources */,
 				377C5B0528AB2D5300B94052 /* Date.swift in Sources */,
@@ -427,8 +505,8 @@
 				377C5B0828AB661E00B94052 /* LunchPreviewView.swift in Sources */,
 				37AA918428A767C5001E4852 /* TodayHeaderView.swift in Sources */,
 				37A5A66E28A5CC880053DCE2 /* SageDiningMenuItems.swift in Sources */,
-				372F7BBD28AAE25700D01A84 /* RefreshableView.swift in Sources */,
 				37A5A65828A4E3EE0053DCE2 /* MySchoolAppEventList.swift in Sources */,
+				37F9D53A28B41DE900DAA95E /* ScheduleView.swift in Sources */,
 				372F7BA128A8C73900D01A84 /* Cache.swift in Sources */,
 				372F7BBA28AAD71700D01A84 /* Color.swift in Sources */,
 				372F7BB128AAADB300D01A84 /* CalendarView.swift in Sources */,
@@ -562,7 +640,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = V4VMBJ7UGG;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -578,7 +656,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jimphieffer.CA;
 				PRODUCT_NAME = CA;
 				SDKROOT = iphoneos;
@@ -594,7 +672,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = V4VMBJ7UGG;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -610,7 +688,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jimphieffer.CA;
 				PRODUCT_NAME = CA;
 				SDKROOT = iphoneos;
@@ -714,6 +792,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		37D5C51F28AD6D5F001A6785 /* XCRemoteSwiftPackageReference "SwiftUIX" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftUIX/SwiftUIX";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.2;
+			};
+		};
+		37D5C53028AE2439001A6785 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.4;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		37D5C52028AD6D60001A6785 /* SwiftUIX */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 37D5C51F28AD6D5F001A6785 /* XCRemoteSwiftPackageReference "SwiftUIX" */;
+			productName = SwiftUIX;
+		};
+		37D5C53128AE2439001A6785 /* Introspect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 37D5C53028AE2439001A6785 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
+			productName = Introspect;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 37A5A61628A3982B0053DCE2 /* Project object */;
 }

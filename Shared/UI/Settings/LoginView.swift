@@ -8,7 +8,7 @@
 import SwiftUI
 import WebKit
 
-class LoginViewModel: NSObject, ObservableObject {
+@MainActor class LoginViewModel: NSObject, ObservableObject {
     let webView = WKWebView()
     @Published var needsUserInput = false
     @Published var shown: Bool = false
@@ -21,7 +21,7 @@ class LoginViewModel: NSObject, ObservableObject {
     
     func open() {
         let request = URLRequest(url: URL(string: "https://columbusacademy.myschoolapp.com/app#login")!)
-        webView.load(request)
+        _ = webView.load(request)
         guard let data = UserDefaults.standard.object(forKey: "api.myschoolapp.cookies") as? Data,
            let cookies = (try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data)) as? [HTTPCookie],
            let _ = cookies.first(where: { $0.name == "s" }) else {
@@ -44,15 +44,21 @@ extension LoginViewModel: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish _: WKNavigation!) {
         guard let url = webView.url?.absoluteString else { return }
         if url.hasPrefix("https://app.blackbaud.com/signin") {
-            webView.evaluateJavaScript("let n = setInterval(() => document.querySelector(`button.spa-auth-googlesignin-primary-button`).click(), 500)")
+            if !needsUserInput {
+                webView.evaluateJavaScript("let n = setInterval(() => document.querySelector(`button.spa-auth-googlesignin-primary-button`).click(), 500)")
+            }
         } else if url.hasPrefix("https://columbusacademy.myschoolapp.com/app") {
             if url.contains("login") {
                 if !needsUserInput {
                     webView.evaluateJavaScript("setInterval(() => document.querySelector(`input#nextBtn`).click(), 500)")
                 }
             } else {
-                updateCookies()
-                shown = false
+                Task {
+                    await MainActor.run {
+                        updateCookies()
+                        shown = false
+                    }
+                }
             }
         } else if url.hasPrefix("https://accounts.google.com/o/oauth2/auth") {
             self.needsUserInput = true

@@ -8,40 +8,24 @@
 import SwiftUI
 
 struct CalendarFilterView: View {
-    var calendars: MySchoolAppCalendarList
-    @Binding var selections: [String: [String: Bool]]
-    @Binding var isPresented: Bool
+    @ObservedObject var calendarViewModel: CalendarViewModel
+
     var body: some View {
         NavigationView {
             Form {
-                ForEach(calendars.filter({ $0.filters != nil && $0.filters!.count > 0 }), id: \.calendarId) { calendar in
-                    Section(calendar.calendar) {
-                        ForEach(calendar.filters!, id: \.calendarId) { filter in
-                            Toggle(isOn: binding(section: calendar.calendarId, row: filter.calendarId)) {
-                                Text(filter.filterName ?? "")
-                            }.toggleStyle(CheckmarkToggleStyle())
+                if case .success(let calendars) = calendarViewModel.calendars {
+                    ForEach(calendars.filter({ ($0.filters ?? []).count > 0 }), id: \.calendarId) { calendar in
+                        Section(calendar.calendar) {
+                            ForEach(calendar.filters ?? [], id: \.calendarId) { filter in
+                                Toggle(isOn: calendarViewModel.binding(section: calendar.calendarId, row: filter.calendarId)) {
+                                    Text(filter.filterName ?? "")
+                                }.toggleStyle(CheckmarkToggleStyle())
+                            }
                         }
                     }
                 }
             }.navigationTitle("Calendars")
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button(action: {
-                            isPresented = false
-                        }) {
-                            Text("Done")
-                        }
-                    }
-                }
         }
-    }
-    
-    fileprivate func binding(section: String, row: String) -> Binding<Bool> {
-        return .init(get: {
-            return selections[section]?[row] ?? false
-        }, set: {
-            selections[section]![row] = $0
-        })
     }
 }
 

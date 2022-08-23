@@ -39,7 +39,7 @@ struct TodayHeaderView: View {
                         RoundedRectangle(cornerRadius: 10).stroke(Color.accentColor, lineWidth: 5)
                             .padding(5)
                     }
-                    .frame(width: 200, height: 200)
+                    .frame(width: UIScreen.main.bounds.width * 0.4, height: UIScreen.main.bounds.width * 0.4)
             }
             VStack(alignment: .leading) {
                 Text(letterDay ?? "...")

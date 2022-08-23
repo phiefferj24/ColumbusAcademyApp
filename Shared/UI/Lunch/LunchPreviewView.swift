@@ -38,7 +38,7 @@ struct LunchPreviewView: View {
                                 .padding(EdgeInsets(top: 1, leading: 10, bottom: 1, trailing: 10))
                         }
                     }
-                    NavigationLink(destination: LunchDetailView(selectedDate: $selectedDate)) {
+                    NavigationLink(destination: LunchDetailView(lunchDetailViewModel: LunchDetailViewModel(menuItems: self.menuItems, selectedDate: selectedDate))) {
                         HStack {
                             Text("Show Full Menu")
                             Spacer()

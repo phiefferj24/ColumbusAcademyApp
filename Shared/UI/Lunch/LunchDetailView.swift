@@ -6,17 +6,16 @@
 //
 
 import SwiftUI
+import Introspect
 
 struct LunchDetailView: View {
-    @Binding var selectedDate: Date
-    
-    @State var menuItems: Result<SageDiningMenuItems, Error>?
+    @ObservedObject var lunchDetailViewModel: LunchDetailViewModel
     
     let sectionPriority: [String] = ["Entrées", "Specials", "Sides and Vegetables", "Soups", "Salads", "Desserts", "Deli", "Daily"]
     
     var body: some View {
         NavigationView {
-            switch menuItems {
+            switch lunchDetailViewModel.menuItems {
             case .success(let menuItems):
                 List {
                     ForEach(menuItems.keys.sorted(by: { sectionPriority.firstIndex(of: $0) ?? sectionPriority.count < sectionPriority.firstIndex(of: $1) ?? sectionPriority.count }), id: \.self) { key in
@@ -29,12 +28,12 @@ struct LunchDetailView: View {
                         }
                     }
                 }.refreshable {
-                    await refreshMenuItems(on: selectedDate, refresh: true)
+                    await lunchDetailViewModel.refreshMenuItems(on: lunchDetailViewModel.selectedDate, refresh: true)
                 }
-            case .failure(_): RefreshableView {
+            case .failure(_): ScrollView {
                 Text("Loading failed. Pull down to retry.")
-            }.refreshable {
-                await refreshMenuItems(on: selectedDate, refresh: true)
+            }.introspectScrollView { scrollView in
+                scrollView.refreshControl = lunchDetailViewModel.refreshControl
             }
             case nil: VStack {
                 Text("Loading...")
@@ -42,13 +41,35 @@ struct LunchDetailView: View {
             }
             }
         }.task {
-            if menuItems == nil {
-                await refreshMenuItems(on: selectedDate)
+            if lunchDetailViewModel.menuItems == nil {
+                await lunchDetailViewModel.refreshMenuItems(on: lunchDetailViewModel.selectedDate)
+            }
+        }
+    }
+}
+
+@MainActor class LunchDetailViewModel: ObservableObject {
+    @Published var refreshControl = UIRefreshControl()
+    
+    @Published var menuItems: Result<SageDiningMenuItems, Error>?
+    @Published var selectedDate: Date
+    
+    init(menuItems: Result<SageDiningMenuItems, Error>?, selectedDate: Date) {
+        self.menuItems = menuItems
+        self.selectedDate = selectedDate
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+    }
+    
+    @objc func refresh() {
+        Task { [weak self] in
+            if let self = self {
+                await self.refreshMenuItems(on: selectedDate, refresh: true)
+                self.refreshControl.endRefreshing()
             }
         }
     }
     
-    fileprivate func refreshMenuItems(for meal: String = "Lunch", on date: Date, menu: String? = nil, refresh: Bool = false) async {
+    func refreshMenuItems(for meal: String = "Lunch", on date: Date, menu: String? = nil, refresh: Bool = false) async {
         do {
             self.menuItems = .success(try await SageDiningAPI.shared.getMenuItems(for: meal, on: date, menu: menu, refresh: refresh))
         } catch {

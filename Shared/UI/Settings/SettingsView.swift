@@ -10,32 +10,44 @@ import SwiftUI
 struct SettingsView: View {
     @ObservedObject var loginViewModel: LoginViewModel
     
-    var quickpin = Binding(get: {
-        UserDefaults.standard.string(forKey: "app.user.quickpin") ?? ""
-    }, set: { newValue in
-        UserDefaults.standard.set(newValue, forKey: "app.user.quickpin")
-        NotificationCenter.default.post(name: Notification.Name("app.user.quickpin"), object: nil)
-    })
+    @AppStorage("app.user.quickpin") var quickpin = ""
+    @AppStorage("app.settings.autoLogin") var autoLogin = false
     
     
     var body: some View {
         Form {
-            Section("General") {
+            Section {
                 Button(action: {
                     loginViewModel.shown.toggle()
                 }) {
                     Text("Login")
-                }.sheet(isPresented: $loginViewModel.shown) {
-                    LoginView(loginViewModel: loginViewModel)
                 }
+                Button(action: {
+                    if let data = UserDefaults.standard.object(forKey: "api.myschoolapp.cookies") as? Data, let cookies = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? [HTTPCookie] {
+                        for cookie in cookies {
+                            loginViewModel.webView.configuration.websiteDataStore.httpCookieStore.delete(cookie)
+                        }
+                    }
+                    UserDefaults.standard.removeObject(forKey: "api.myschoolapp.cookies")
+                    NotificationCenter.default.post(name: Notification.Name("api.myschoolapp.cookies"), object: nil)
+                }) {
+                    Text("Logout")
+                }
+                Toggle(isOn: $autoLogin) {
+                    Text("Auto Login")
+                }
+            } header: {
+                Text("MySchoolApp")
+            } footer: {
+                Text("Enabling auto-login will automatically bring up the login screen when necessary.")
             }
-            Section(content: {
-                TextField("Quickpin", text: quickpin)
-            }, header: {
+            Section {
+                TextField("Quickpin", text: $quickpin)
+            } header: {
                 Text("Quickpin")
-            }, footer: {
+            } footer: {
                 Text("Found on the top right of your SchoolPass ID. Entering your QuickPin here will display your QR code on the Today page.")
-            })
+            }
         }.listStyle(.insetGrouped)
     }
 }
