@@ -11,7 +11,7 @@ import SwiftUI
 struct CAApp: App {
     @StateObject var loginViewModel = LoginViewModel()
     var autoLogin: Bool {
-        UserDefaults.standard.bool(forKey: "app.settings.autoLogin")
+        UserDefaults(suiteName: "group.com.jimphieffer.CA")!.bool(forKey: "app.settings.autoLogin")
     }
     
     var body: some Scene {

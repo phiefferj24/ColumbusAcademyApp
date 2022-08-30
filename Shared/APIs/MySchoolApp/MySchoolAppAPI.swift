@@ -21,7 +21,7 @@ class MySchoolAppAPI {
     var observers: [NSObjectProtocol] = []
 
     var cookies: [HTTPCookie] = {
-        if let data = UserDefaults.standard.object(forKey: "api.myschoolapp.cookies") as? Data, let cookies = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? [HTTPCookie] {
+        if let data = UserDefaults(suiteName: "group.com.jimphieffer.CA")!.object(forKey: "api.myschoolapp.cookies") as? Data, let cookies = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? [HTTPCookie] {
             return cookies
         } else {
             return []
