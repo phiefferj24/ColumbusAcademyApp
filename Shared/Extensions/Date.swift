@@ -23,4 +23,7 @@ extension Date {
     func start() -> Date {
         Calendar.current.startOfDay(for: self)
     }
+    func todayRetainingTime() -> Date {
+        Calendar.current.date(bySettingHour: Calendar.current.component(.hour, from: self), minute: Calendar.current.component(.minute, from: self), second: Calendar.current.component(.second, from: self), of: Date()) ?? self
+    }
 }

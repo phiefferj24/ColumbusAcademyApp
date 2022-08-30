@@ -23,12 +23,12 @@ struct SettingsView: View {
                     Text("Login")
                 }
                 Button(action: {
-                    if let data = UserDefaults.standard.object(forKey: "api.myschoolapp.cookies") as? Data, let cookies = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? [HTTPCookie] {
+                    if let data = UserDefaults(suiteName: "group.com.jimphieffer.CA")!.object(forKey: "api.myschoolapp.cookies") as? Data, let cookies = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as? [HTTPCookie] {
                         for cookie in cookies {
                             loginViewModel.webView.configuration.websiteDataStore.httpCookieStore.delete(cookie)
                         }
                     }
-                    UserDefaults.standard.removeObject(forKey: "api.myschoolapp.cookies")
+                    UserDefaults(suiteName: "group.com.jimphieffer.CA")!.removeObject(forKey: "api.myschoolapp.cookies")
                     NotificationCenter.default.post(name: Notification.Name("api.myschoolapp.cookies"), object: nil)
                 }) {
                     Text("Logout")

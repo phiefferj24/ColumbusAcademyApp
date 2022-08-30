@@ -22,7 +22,7 @@ import WebKit
     func open() {
         let request = URLRequest(url: URL(string: "https://columbusacademy.myschoolapp.com/app#login")!)
         _ = webView.load(request)
-        guard let data = UserDefaults.standard.object(forKey: "api.myschoolapp.cookies") as? Data,
+        guard let data = UserDefaults(suiteName: "group.com.jimphieffer.CA")!.object(forKey: "api.myschoolapp.cookies") as? Data,
            let cookies = (try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data)) as? [HTTPCookie],
            let _ = cookies.first(where: { $0.name == "s" }) else {
             needsUserInput = true
@@ -33,7 +33,7 @@ import WebKit
     func updateCookies() {
         webView.configuration.websiteDataStore.httpCookieStore.getAllCookies { cookies in
             if let data = try? NSKeyedArchiver.archivedData(withRootObject: cookies, requiringSecureCoding: false) {
-                UserDefaults.standard.set(data, forKey: "api.myschoolapp.cookies")
+                UserDefaults(suiteName: "group.com.jimphieffer.CA")!.set(data, forKey: "api.myschoolapp.cookies")
                 NotificationCenter.default.post(name: Notification.Name("api.myschoolapp.cookies"), object: nil)
             }
         }
