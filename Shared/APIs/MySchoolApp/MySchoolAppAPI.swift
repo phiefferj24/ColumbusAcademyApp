@@ -115,11 +115,11 @@ class MySchoolAppAPI {
         return eventList
     }
     
-    fileprivate var _scheduleList: [Date: Cache<MySchoolAppScheduleList>?] = [:]
     
     func getSchedule(for date: Date, refresh: Bool = false, nocache: Bool = false) async throws -> MySchoolAppScheduleList {
-        if !refresh, let scheduleList = _scheduleList[date], let value = scheduleList?.value {
-            return value
+        if !refresh, let scheduleList = try? await MySchoolAppDataManager.shared.getSchedule(for: date) {
+            print("loading cached schedule")
+            return scheduleList
         }
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromPascalCase
@@ -133,7 +133,9 @@ class MySchoolAppAPI {
         }
         let scheduleList = try decoder.decode(MySchoolAppScheduleList.self, from: data)
         if !nocache {
-            _scheduleList[date] = Cache(scheduleList)
+            print("caching schedule")
+            try? await MySchoolAppDataManager.shared.setSchedule(scheduleList, for: date)
+            print("cached schedule")
         }
         return scheduleList
     }
