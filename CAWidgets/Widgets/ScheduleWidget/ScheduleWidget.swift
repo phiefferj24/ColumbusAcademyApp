@@ -28,13 +28,13 @@ struct ScheduleWidgetProvider: TimelineProvider {
     
     func getTimeline(in context: Context, completion: @escaping (Timeline<ScheduleWidgetEntry>) -> ()) {
         Task {
-            var nextUpdate = Date().start() + 86400
+            var nextUpdate = Date().start() + 720
             do {
                 let schedule = try await MySchoolAppAPI.shared.getSchedule(for: Date().start())
                 if let nextClass = schedule.first(where: {
                     (formatter.date(from: $0.myDayStartTime)?.todayRetainingTime() ?? Date().start()) > Date()
                 }) {
-                    nextUpdate = formatter.date(from: nextClass.myDayStartTime)?.todayRetainingTime() ?? Date() + 3600
+                    nextUpdate = formatter.date(from: nextClass.myDayStartTime)?.todayRetainingTime() ?? nextUpdate
                 }
                 completion (Timeline(entries: [
                     ScheduleWidgetEntry(date: Date(), schedule: .success(schedule))
