@@ -24,7 +24,7 @@ struct LunchWidgetProvider: TimelineProvider {
     }
     
     func getTimeline(in context: Context, completion: @escaping (Timeline<LunchWidgetEntry>) -> ()) {
-        let nextUpdate = Date().start() + 50400 + ((Date() > Date().start() + 50400) ? 86400 : 0)
+        let nextUpdate = Date().start() + 86400
         Task {
             do {
                 let menu = try await SageDiningAPI.shared.getMenuItems(on: Date().start())
