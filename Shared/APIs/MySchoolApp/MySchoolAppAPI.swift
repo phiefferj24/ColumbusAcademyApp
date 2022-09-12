@@ -69,11 +69,9 @@ class MySchoolAppAPI {
         responseCookies.store("api.myschoolapp.cookies")
     }
     
-    fileprivate var _calendarList: Cache<MySchoolAppCalendarList>?
-    
-    func getCalendars(from start: Date, to end: Date, refresh: Bool = false, nocache: Bool = false) async throws -> MySchoolAppCalendarList {
-        if !refresh, let _calendarList = _calendarList, let value = _calendarList.value {
-            return value
+    @discardableResult func getCalendars(from start: Date, to end: Date, refresh: Bool = false, nocache: Bool = false) async throws -> MySchoolAppCalendarList {
+        if !refresh, let calendarList = try? await MySchoolAppDataManager.shared.getCalendars(from: start, to: end) {
+            return calendarList
         }
         guard let url = URL(string: "https://columbusacademy.myschoolapp.com/api/mycalendar/list?startDate=\(urlDateFormatter.string(from: start))&endDate=\(urlDateFormatter.string(from: end))&calendarSetId=1&settingsTypeId=1") else { throw MySchoolAppAPIError("URL creation failed.") }
         let request = URLRequest(url: url, cookies: cookies)
@@ -83,20 +81,21 @@ class MySchoolAppAPI {
         guard let response = response as? HTTPURLResponse else { throw MySchoolAppAPIError("Could not parse response.") }
         if response.statusCode == 403 || response.statusCode == 401 {
             NotificationCenter.default.post(name: Notification.Name("api.myschoolapp.needsUserLogin"), object: nil)
+            if let calendarList = try? await MySchoolAppDataManager.shared.getCalendars(from: start, to: end) {
+                return calendarList
+            }
             throw MySchoolAppAPIError("Unauthorized request.")
         }
         let calendarList = try decoder.decode(MySchoolAppCalendarList.self, from: data)
         if !nocache {
-            _calendarList = Cache(calendarList)
+            try? await MySchoolAppDataManager.shared.setCalendars(calendarList, from: start, to: end)
         }
         return calendarList
     }
     
-    fileprivate var _eventList: [DateInterval: Cache<MySchoolAppEventList>?] = [:]
-    
-    func getEvents(from start: Date, to end: Date, for calendars: [String], refresh: Bool = false, nocache: Bool = false) async throws -> MySchoolAppEventList {
-        if !refresh, let eventList = _eventList[DateInterval(start: start, end: end)], let value = eventList?.value {
-            return value
+    @discardableResult func getEvents(from start: Date, to end: Date, for calendars: [String], refresh: Bool = false, nocache: Bool = false) async throws -> MySchoolAppEventList {
+        if !refresh, let eventList = try? await MySchoolAppDataManager.shared.getEvents(from: start, to: end) {
+            return eventList
         }
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromPascalCase
@@ -106,19 +105,20 @@ class MySchoolAppAPI {
         guard let response = response as? HTTPURLResponse else { throw MySchoolAppAPIError("Could not parse response.") }
         if response.statusCode == 403 || response.statusCode == 401 {
             NotificationCenter.default.post(name: Notification.Name("api.myschoolapp.needsUserLogin"), object: nil)
+            if let eventList = try? await MySchoolAppDataManager.shared.getEvents(from: start, to: end) {
+                return eventList
+            }
             throw MySchoolAppAPIError("Unauthorized request.")
         }
         let eventList = try decoder.decode(MySchoolAppEventList.self, from: data)
         if !nocache {
-            _eventList[DateInterval(start: start, end: end)] = Cache(eventList)
+            try? await MySchoolAppDataManager.shared.setEvents(eventList, from: start, to: end)
         }
         return eventList
     }
     
-    
-    func getSchedule(for date: Date, refresh: Bool = false, nocache: Bool = false) async throws -> MySchoolAppScheduleList {
+    @discardableResult func getSchedule(for date: Date, refresh: Bool = false, nocache: Bool = false) async throws -> MySchoolAppScheduleList {
         if !refresh, let scheduleList = try? await MySchoolAppDataManager.shared.getSchedule(for: date) {
-            print("loading cached schedule")
             return scheduleList
         }
         let decoder = JSONDecoder()
@@ -129,16 +129,15 @@ class MySchoolAppAPI {
         guard let response = response as? HTTPURLResponse else { throw MySchoolAppAPIError("Could not parse response.") }
         if response.statusCode == 403 || response.statusCode == 401 {
             NotificationCenter.default.post(name: Notification.Name("api.myschoolapp.needsUserLogin"), object: nil)
+            if let scheduleList = try? await MySchoolAppDataManager.shared.getSchedule(for: date) {
+                return scheduleList
+            }
             throw MySchoolAppAPIError("Unauthorized request.")
         }
         let scheduleList = try decoder.decode(MySchoolAppScheduleList.self, from: data)
         if !nocache {
-            print("caching schedule")
             try? await MySchoolAppDataManager.shared.setSchedule(scheduleList, for: date)
-            print("cached schedule")
         }
         return scheduleList
     }
 }
-
-

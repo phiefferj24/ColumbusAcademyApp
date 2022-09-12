@@ -12,7 +12,7 @@ struct TodayHeaderView: View {
     let context = CIContext()
     let filter = CIFilter.qrCodeGenerator()
     
-    @AppStorage("app.user.quickpin") var quickpin: String?
+    @AppStorage("app.user.quickpin", store: UserDefaults(suiteName: "group.com.jimphieffer.CA")) var quickpin: String?
     
     fileprivate func generateQRCode(_ string: String) -> Image {
         filter.message = Data(string.utf8)

@@ -42,12 +42,32 @@ struct TodayView: View {
     @Published var schedule: Result<MySchoolAppScheduleList, Error>?
     @Published var menuItems: Result<SageDiningMenuItems, Error>?
     
-    @AppStorage("app.calendar.selections") var selections: Storable<[String: [String: Bool]]> = Storable([String: [String: Bool]]())
+    @AppStorage("app.calendar.selections", store: UserDefaults(suiteName: "group.com.jimphieffer.CA")) var selections: Storable<[String: [String: Bool]]> = Storable([String: [String: Bool]]())
     
     @Published var refreshControl = UIRefreshControl()
+
+    var observers: [NSObjectProtocol] = []
     
     init() {
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        
+        observers.append(
+            NotificationCenter.default.addObserver(forName: Notification.Name("api.myschoolapp.loginComplete"), object: nil, queue: OperationQueue.main) { [weak self] _ in
+                Task { @MainActor [weak self] in
+                    await self?.refreshCalendars(from: Date().startOfMonth(), to: Date().startOfNextMonth(), refresh: true)
+                    await self?.refreshEvents(from: Date().start(), to: Date().start() + 86400, refresh: true)
+                    await self?.refreshLetterDay(refresh: true)
+                    await self?.refreshSchedule(for: Date().start(), refresh: true)
+                    await self?.refreshMenuItems(on: Date().start(), refresh: true)
+                }
+            }
+        )
+    }
+    
+    deinit {
+        for observer in observers {
+            NotificationCenter.default.removeObserver(observer)
+        }
     }
     
     @objc func refresh() {
@@ -70,7 +90,7 @@ struct TodayView: View {
                 if selections.value[calendar.calendarId] == nil {
                     selections.value[calendar.calendarId] = [:]
                     for filter in calendar.filters ?? [] {
-                        selections.value[calendar.calendarId]![filter.calendarId] = filter.selected ?? false
+                        selections.value[calendar.calendarId]![filter.calendarId] = selections.value[calendar.calendarId]![filter.calendarId] ?? true
                     }
                 }
             }

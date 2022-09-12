@@ -55,7 +55,7 @@ struct FeedView: View {
 }
 
 @MainActor class FeedViewModel: ObservableObject {
-    @AppStorage("app.feed.twitter.accounts") var accounts: Storable<[TwitterUser]> = Storable([TwitterUser]())
+    @AppStorage("app.feed.twitter.accounts", store: UserDefaults(suiteName: "group.com.jimphieffer.CA")) var accounts: Storable<[TwitterUser]> = Storable([TwitterUser]())
     @Published var tweets: TwitterTweets?
     @Published var refreshControl = UIRefreshControl()
     

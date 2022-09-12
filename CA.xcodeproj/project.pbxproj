@@ -65,6 +65,10 @@
 		37D5C52628AD8F76001A6785 /* TwitterUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D5C52528AD8F76001A6785 /* TwitterUser.swift */; };
 		37D5C52F28AE0F61001A6785 /* Storable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D5C52E28AE0F61001A6785 /* Storable.swift */; };
 		37D5C53228AE2439001A6785 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 37D5C53128AE2439001A6785 /* Introspect */; };
+		37EAF49028C4315400AC94E6 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 37EAF48F28C4315400AC94E6 /* AlertToast */; };
+		37EAF49328C8DD5200AC94E6 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EAF49228C8DD5200AC94E6 /* Toast.swift */; };
+		37EAF49528C8DD5C00AC94E6 /* DropdownToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EAF49428C8DD5C00AC94E6 /* DropdownToast.swift */; };
+		37EAF4AD28CED50300AC94E6 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EAF4AC28CED50300AC94E6 /* Task.swift */; };
 		37F9D53628B41B8E00DAA95E /* MySchoolAppScheduleList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F9D53528B41B8E00DAA95E /* MySchoolAppScheduleList.swift */; };
 		37F9D53728B41B8E00DAA95E /* MySchoolAppScheduleList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F9D53528B41B8E00DAA95E /* MySchoolAppScheduleList.swift */; };
 		37F9D53A28B41DE900DAA95E /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F9D53828B41DE900DAA95E /* ScheduleView.swift */; };
@@ -187,6 +191,9 @@
 		37D5C52528AD8F76001A6785 /* TwitterUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwitterUser.swift; sourceTree = "<group>"; };
 		37D5C52728AD9031001A6785 /* FeedSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedSettingsView.swift; sourceTree = "<group>"; };
 		37D5C52E28AE0F61001A6785 /* Storable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storable.swift; sourceTree = "<group>"; };
+		37EAF49228C8DD5200AC94E6 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
+		37EAF49428C8DD5C00AC94E6 /* DropdownToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownToast.swift; sourceTree = "<group>"; };
+		37EAF4AC28CED50300AC94E6 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		37F9D53528B41B8E00DAA95E /* MySchoolAppScheduleList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySchoolAppScheduleList.swift; sourceTree = "<group>"; };
 		37F9D53828B41DE900DAA95E /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
 		37F9D54128B64B6000DAA95E /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -219,6 +226,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				37D5C52128AD6D60001A6785 /* SwiftUIX in Frameworks */,
+				37EAF49028C4315400AC94E6 /* AlertToast in Frameworks */,
 				375AA39C28BE9534002C71DD /* CoreData.framework in Frameworks */,
 				37D5C53228AE2439001A6785 /* Introspect in Frameworks */,
 			);
@@ -321,6 +329,7 @@
 		37A5A64E28A4CDCC0053DCE2 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				37EAF49128C8DD3900AC94E6 /* Toast */,
 				37F9D53428B41A8B00DAA95E /* Schedule */,
 				37D5C51828ACB966001A6785 /* Feed */,
 				37D5C51028AC9DC7001A6785 /* Components */,
@@ -393,6 +402,7 @@
 				377C5B0028AB286C00B94052 /* DateFormatter.swift */,
 				377C5B0328AB2D5300B94052 /* Date.swift */,
 				377C5B0928AB67DC00B94052 /* Array.swift */,
+				37EAF4AC28CED50300AC94E6 /* Task.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -439,6 +449,15 @@
 				37D5C52728AD9031001A6785 /* FeedSettingsView.swift */,
 			);
 			path = Feed;
+			sourceTree = "<group>";
+		};
+		37EAF49128C8DD3900AC94E6 /* Toast */ = {
+			isa = PBXGroup;
+			children = (
+				37EAF49228C8DD5200AC94E6 /* Toast.swift */,
+				37EAF49428C8DD5C00AC94E6 /* DropdownToast.swift */,
+			);
+			path = Toast;
 			sourceTree = "<group>";
 		};
 		37F9D53428B41A8B00DAA95E /* Schedule */ = {
@@ -550,6 +569,7 @@
 			packageProductDependencies = (
 				37D5C52028AD6D60001A6785 /* SwiftUIX */,
 				37D5C53128AE2439001A6785 /* Introspect */,
+				37EAF48F28C4315400AC94E6 /* AlertToast */,
 			);
 			productName = "CA (iOS)";
 			productReference = 37A5A62228A3982E0053DCE2 /* CA.app */;
@@ -622,6 +642,7 @@
 			packageReferences = (
 				37D5C51F28AD6D5F001A6785 /* XCRemoteSwiftPackageReference "SwiftUIX" */,
 				37D5C53028AE2439001A6785 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
+				37EAF48E28C4315400AC94E6 /* XCRemoteSwiftPackageReference "AlertToast" */,
 			);
 			productRefGroup = 37A5A62328A3982E0053DCE2 /* Products */;
 			projectDirPath = "";
@@ -672,6 +693,7 @@
 				37A5A65028A4CDFA0053DCE2 /* MySchoolAppAPI.swift in Sources */,
 				37A5A65D28A4E47C0053DCE2 /* MySchoolAppContext.swift in Sources */,
 				375AA39D28BE95D3002C71DD /* MySchoolAppDataManager.swift in Sources */,
+				37EAF4AD28CED50300AC94E6 /* Task.swift in Sources */,
 				37A5A65A28A4E40B0053DCE2 /* MySchoolAppSchoolContext.swift in Sources */,
 				377C5B0428AB2D5300B94052 /* Date.swift in Sources */,
 				375AA3A328BE96AF002C71DD /* MySchoolAppDatabase.xcdatamodel in Sources */,
@@ -679,6 +701,7 @@
 				37A5A67128A5FF600053DCE2 /* JSONDecoder.swift in Sources */,
 				37D5C52F28AE0F61001A6785 /* Storable.swift in Sources */,
 				377C5B0A28AB67DC00B94052 /* Array.swift in Sources */,
+				37EAF49328C8DD5200AC94E6 /* Toast.swift in Sources */,
 				37A5A66D28A5CC880053DCE2 /* SageDiningMenuItems.swift in Sources */,
 				37A5A65728A4E3EE0053DCE2 /* MySchoolAppEventList.swift in Sources */,
 				37F9D5BA28B6617D00DAA95E /* LunchDetailView.swift in Sources */,
@@ -687,6 +710,7 @@
 				37F9D5B328B6617D00DAA95E /* CalendarFilterView.swift in Sources */,
 				37F9D5B428B6617D00DAA95E /* TodayHeaderView.swift in Sources */,
 				37D5C51428ACB3B7001A6785 /* TwitterAPI.swift in Sources */,
+				37EAF49528C8DD5C00AC94E6 /* DropdownToast.swift in Sources */,
 				372F7BB928AAD71700D01A84 /* Color.swift in Sources */,
 				37F9D5B028B6617D00DAA95E /* SettingsView.swift in Sources */,
 				37F9D5B928B6617D00DAA95E /* CalendarView.swift in Sources */,
@@ -1165,6 +1189,14 @@
 				minimumVersion = 0.1.4;
 			};
 		};
+		37EAF48E28C4315400AC94E6 /* XCRemoteSwiftPackageReference "AlertToast" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/elai950/AlertToast.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1177,6 +1209,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 37D5C53028AE2439001A6785 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
 			productName = Introspect;
+		};
+		37EAF48F28C4315400AC94E6 /* AlertToast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 37EAF48E28C4315400AC94E6 /* XCRemoteSwiftPackageReference "AlertToast" */;
+			productName = AlertToast;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

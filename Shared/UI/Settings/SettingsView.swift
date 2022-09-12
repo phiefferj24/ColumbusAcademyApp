@@ -10,15 +10,18 @@ import SwiftUI
 struct SettingsView: View {
     @ObservedObject var loginViewModel: LoginViewModel
     
-    @AppStorage("app.user.quickpin") var quickpin = ""
-    @AppStorage("app.settings.autoLogin") var autoLogin = false
+    @AppStorage("app.user.quickpin", store: UserDefaults(suiteName: "group.com.jimphieffer.CA")) var quickpin = ""
+    @AppStorage("app.settings.autoLogin", store: UserDefaults(suiteName: "group.com.jimphieffer.CA")) var autoLogin = true
     
-    
+    @State var logoutToastPresented = false
+
     var body: some View {
         Form {
             Section {
                 Button(action: {
-                    loginViewModel.shown.toggle()
+                    Task { @MainActor in
+                        loginViewModel.open()
+                    }
                 }) {
                     Text("Login")
                 }
@@ -30,6 +33,9 @@ struct SettingsView: View {
                     }
                     UserDefaults(suiteName: "group.com.jimphieffer.CA")!.removeObject(forKey: "api.myschoolapp.cookies")
                     NotificationCenter.default.post(name: Notification.Name("api.myschoolapp.cookies"), object: nil)
+                    Task { @MainActor in
+                        logoutToastPresented = true
+                    }
                 }) {
                     Text("Logout")
                 }
@@ -49,5 +55,8 @@ struct SettingsView: View {
                 Text("Found on the top right of your SchoolPass ID. Entering your QuickPin here will display your QR code on the Today page.")
             }
         }.listStyle(.insetGrouped)
+            .toast(isPresenting: $logoutToastPresented, expiresAfter: 4.0) {
+                DropdownToast(title: "Logged out.", accessoryView: .systemImage(name: "xmark", color: .red))
+            }
     }
 }
