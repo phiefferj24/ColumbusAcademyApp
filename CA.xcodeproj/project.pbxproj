@@ -20,6 +20,12 @@
 		372F7BB728AAD29700D01A84 /* URLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372F7BB528AAD29700D01A84 /* URLRequest.swift */; };
 		372F7BB928AAD71700D01A84 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372F7BB828AAD71700D01A84 /* Color.swift */; };
 		372F7BBA28AAD71700D01A84 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372F7BB828AAD71700D01A84 /* Color.swift */; };
+		375AA39C28BE9534002C71DD /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37FB9B6328BDC6E900369684 /* CoreData.framework */; };
+		375AA39D28BE95D3002C71DD /* MySchoolAppDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FB9B6A28BE3FBB00369684 /* MySchoolAppDataManager.swift */; };
+		375AA39E28BE95DA002C71DD /* MySchoolAppDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FB9B6A28BE3FBB00369684 /* MySchoolAppDataManager.swift */; };
+		375AA3A328BE96AF002C71DD /* MySchoolAppDatabase.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 375AA3A228BE96AF002C71DD /* MySchoolAppDatabase.xcdatamodel */; };
+		375AA3A428BE96AF002C71DD /* MySchoolAppDatabase.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 375AA3A228BE96AF002C71DD /* MySchoolAppDatabase.xcdatamodel */; };
+		375AA3A528BE96AF002C71DD /* MySchoolAppDatabase.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 375AA3A228BE96AF002C71DD /* MySchoolAppDatabase.xcdatamodel */; };
 		377C5B0128AB286C00B94052 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377C5B0028AB286C00B94052 /* DateFormatter.swift */; };
 		377C5B0228AB286C00B94052 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377C5B0028AB286C00B94052 /* DateFormatter.swift */; };
 		377C5B0428AB2D5300B94052 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377C5B0328AB2D5300B94052 /* Date.swift */; };
@@ -59,6 +65,10 @@
 		37D5C52628AD8F76001A6785 /* TwitterUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D5C52528AD8F76001A6785 /* TwitterUser.swift */; };
 		37D5C52F28AE0F61001A6785 /* Storable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D5C52E28AE0F61001A6785 /* Storable.swift */; };
 		37D5C53228AE2439001A6785 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 37D5C53128AE2439001A6785 /* Introspect */; };
+		37EAF49028C4315400AC94E6 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 37EAF48F28C4315400AC94E6 /* AlertToast */; };
+		37EAF49328C8DD5200AC94E6 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EAF49228C8DD5200AC94E6 /* Toast.swift */; };
+		37EAF49528C8DD5C00AC94E6 /* DropdownToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EAF49428C8DD5C00AC94E6 /* DropdownToast.swift */; };
+		37EAF4AD28CED50300AC94E6 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EAF4AC28CED50300AC94E6 /* Task.swift */; };
 		37F9D53628B41B8E00DAA95E /* MySchoolAppScheduleList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F9D53528B41B8E00DAA95E /* MySchoolAppScheduleList.swift */; };
 		37F9D53728B41B8E00DAA95E /* MySchoolAppScheduleList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F9D53528B41B8E00DAA95E /* MySchoolAppScheduleList.swift */; };
 		37F9D53A28B41DE900DAA95E /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37F9D53828B41DE900DAA95E /* ScheduleView.swift */; };
@@ -113,6 +123,7 @@
 		37FB9B5D28BCF7BD00369684 /* ScheduleWidgetSmallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FB9B5B28BCF7B700369684 /* ScheduleWidgetSmallView.swift */; };
 		37FB9B5E28BCF9EE00369684 /* ScheduleWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FB9B5928BCF79E00369684 /* ScheduleWidget.swift */; };
 		37FB9B6128BD35D800369684 /* ScheduleWidgetLargeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FB9B5F28BD35D300369684 /* ScheduleWidgetLargeView.swift */; };
+		37FB9B6F28BE8B1100369684 /* MySchoolAppDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FB9B6A28BE3FBB00369684 /* MySchoolAppDataManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -148,6 +159,8 @@
 		372F7BB228AACD2C00D01A84 /* CalendarDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDetailView.swift; sourceTree = "<group>"; };
 		372F7BB528AAD29700D01A84 /* URLRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLRequest.swift; sourceTree = "<group>"; };
 		372F7BB828AAD71700D01A84 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		375AA39828BE940F002C71DD /* CA (iOS).entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "CA (iOS).entitlements"; sourceTree = "<group>"; };
+		375AA3A228BE96AF002C71DD /* MySchoolAppDatabase.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MySchoolAppDatabase.xcdatamodel; sourceTree = "<group>"; };
 		377C5B0028AB286C00B94052 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 		377C5B0328AB2D5300B94052 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		377C5B0628AB661E00B94052 /* LunchPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LunchPreviewView.swift; sourceTree = "<group>"; };
@@ -178,6 +191,9 @@
 		37D5C52528AD8F76001A6785 /* TwitterUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwitterUser.swift; sourceTree = "<group>"; };
 		37D5C52728AD9031001A6785 /* FeedSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedSettingsView.swift; sourceTree = "<group>"; };
 		37D5C52E28AE0F61001A6785 /* Storable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storable.swift; sourceTree = "<group>"; };
+		37EAF49228C8DD5200AC94E6 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
+		37EAF49428C8DD5C00AC94E6 /* DropdownToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownToast.swift; sourceTree = "<group>"; };
+		37EAF4AC28CED50300AC94E6 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		37F9D53528B41B8E00DAA95E /* MySchoolAppScheduleList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySchoolAppScheduleList.swift; sourceTree = "<group>"; };
 		37F9D53828B41DE900DAA95E /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
 		37F9D54128B64B6000DAA95E /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -191,7 +207,6 @@
 		37F9D5C128B7CAA600DAA95E /* LunchWidgetLargeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LunchWidgetLargeView.swift; sourceTree = "<group>"; };
 		37F9D5C428B7D06900DAA95E /* LetterDayWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterDayWidget.swift; sourceTree = "<group>"; };
 		37F9D5C628B7D17600DAA95E /* LetterDayWidgetSmallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterDayWidgetSmallView.swift; sourceTree = "<group>"; };
-		37F9D5C928B7F6CF00DAA95E /* CA (iOS).entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "CA (iOS).entitlements"; sourceTree = "<group>"; };
 		37F9D5CA28B7F6F100DAA95E /* CAWidgetsExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CAWidgetsExtension.entitlements; sourceTree = "<group>"; };
 		37F9D5CC28B7F7AA00DAA95E /* CA (iOS)Debug.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "CA (iOS)Debug.entitlements"; sourceTree = "<group>"; };
 		37F9D5CD28B7FC0600DAA95E /* LetterDayWidgetAccessoryInlineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterDayWidgetAccessoryInlineView.swift; sourceTree = "<group>"; };
@@ -201,6 +216,8 @@
 		37FB9B5928BCF79E00369684 /* ScheduleWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleWidget.swift; sourceTree = "<group>"; };
 		37FB9B5B28BCF7B700369684 /* ScheduleWidgetSmallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleWidgetSmallView.swift; sourceTree = "<group>"; };
 		37FB9B5F28BD35D300369684 /* ScheduleWidgetLargeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleWidgetLargeView.swift; sourceTree = "<group>"; };
+		37FB9B6328BDC6E900369684 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.0.sdk/System/Library/Frameworks/CoreData.framework; sourceTree = DEVELOPER_DIR; };
+		37FB9B6A28BE3FBB00369684 /* MySchoolAppDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySchoolAppDataManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -209,6 +226,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				37D5C52128AD6D60001A6785 /* SwiftUIX in Frameworks */,
+				37EAF49028C4315400AC94E6 /* AlertToast in Frameworks */,
+				375AA39C28BE9534002C71DD /* CoreData.framework in Frameworks */,
 				37D5C53228AE2439001A6785 /* Introspect in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -245,10 +264,10 @@
 		37A5A61528A3982B0053DCE2 = {
 			isa = PBXGroup;
 			children = (
+				375AA39828BE940F002C71DD /* CA (iOS).entitlements */,
 				37F9D5D028B7FE1B00DAA95E /* CA--iOS--Info.plist */,
 				37F9D5CC28B7F7AA00DAA95E /* CA (iOS)Debug.entitlements */,
 				37F9D5CA28B7F6F100DAA95E /* CAWidgetsExtension.entitlements */,
-				37F9D5C928B7F6CF00DAA95E /* CA (iOS).entitlements */,
 				37A5A61A28A3982C0053DCE2 /* Shared */,
 				37A5A62928A3982E0053DCE2 /* macOS */,
 				37F9D57628B6568B00DAA95E /* CAWidgets */,
@@ -260,6 +279,7 @@
 		37A5A61A28A3982C0053DCE2 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				37FB9B6228BDC65F00369684 /* Data */,
 				37A5A66F28A5FF4D0053DCE2 /* Extensions */,
 				37A5A66028A5C7D30053DCE2 /* APIs */,
 				37A5A64E28A4CDCC0053DCE2 /* UI */,
@@ -309,6 +329,7 @@
 		37A5A64E28A4CDCC0053DCE2 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				37EAF49128C8DD3900AC94E6 /* Toast */,
 				37F9D53428B41A8B00DAA95E /* Schedule */,
 				37D5C51828ACB966001A6785 /* Feed */,
 				37D5C51028AC9DC7001A6785 /* Components */,
@@ -381,6 +402,7 @@
 				377C5B0028AB286C00B94052 /* DateFormatter.swift */,
 				377C5B0328AB2D5300B94052 /* Date.swift */,
 				377C5B0928AB67DC00B94052 /* Array.swift */,
+				37EAF4AC28CED50300AC94E6 /* Task.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -429,6 +451,15 @@
 			path = Feed;
 			sourceTree = "<group>";
 		};
+		37EAF49128C8DD3900AC94E6 /* Toast */ = {
+			isa = PBXGroup;
+			children = (
+				37EAF49228C8DD5200AC94E6 /* Toast.swift */,
+				37EAF49428C8DD5C00AC94E6 /* DropdownToast.swift */,
+			);
+			path = Toast;
+			sourceTree = "<group>";
+		};
 		37F9D53428B41A8B00DAA95E /* Schedule */ = {
 			isa = PBXGroup;
 			children = (
@@ -440,6 +471,7 @@
 		37F9D54028B64B6000DAA95E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				37FB9B6328BDC6E900369684 /* CoreData.framework */,
 				37F9D54128B64B6000DAA95E /* WidgetKit.framework */,
 				37F9D54328B64B6000DAA95E /* SwiftUI.framework */,
 			);
@@ -499,6 +531,23 @@
 			path = ScheduleWidget;
 			sourceTree = "<group>";
 		};
+		37FB9B6228BDC65F00369684 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				37FB9B6928BE3FA600369684 /* MySchoolApp */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		37FB9B6928BE3FA600369684 /* MySchoolApp */ = {
+			isa = PBXGroup;
+			children = (
+				375AA3A228BE96AF002C71DD /* MySchoolAppDatabase.xcdatamodel */,
+				37FB9B6A28BE3FBB00369684 /* MySchoolAppDataManager.swift */,
+			);
+			path = MySchoolApp;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -520,6 +569,7 @@
 			packageProductDependencies = (
 				37D5C52028AD6D60001A6785 /* SwiftUIX */,
 				37D5C53128AE2439001A6785 /* Introspect */,
+				37EAF48F28C4315400AC94E6 /* AlertToast */,
 			);
 			productName = "CA (iOS)";
 			productReference = 37A5A62228A3982E0053DCE2 /* CA.app */;
@@ -592,6 +642,7 @@
 			packageReferences = (
 				37D5C51F28AD6D5F001A6785 /* XCRemoteSwiftPackageReference "SwiftUIX" */,
 				37D5C53028AE2439001A6785 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
+				37EAF48E28C4315400AC94E6 /* XCRemoteSwiftPackageReference "AlertToast" */,
 			);
 			productRefGroup = 37A5A62328A3982E0053DCE2 /* Products */;
 			projectDirPath = "";
@@ -641,12 +692,16 @@
 				37F9D5B228B6617D00DAA95E /* FeedView.swift in Sources */,
 				37A5A65028A4CDFA0053DCE2 /* MySchoolAppAPI.swift in Sources */,
 				37A5A65D28A4E47C0053DCE2 /* MySchoolAppContext.swift in Sources */,
+				375AA39D28BE95D3002C71DD /* MySchoolAppDataManager.swift in Sources */,
+				37EAF4AD28CED50300AC94E6 /* Task.swift in Sources */,
 				37A5A65A28A4E40B0053DCE2 /* MySchoolAppSchoolContext.swift in Sources */,
 				377C5B0428AB2D5300B94052 /* Date.swift in Sources */,
+				375AA3A328BE96AF002C71DD /* MySchoolAppDatabase.xcdatamodel in Sources */,
 				37F9D5AE28B6617D00DAA95E /* TodayView.swift in Sources */,
 				37A5A67128A5FF600053DCE2 /* JSONDecoder.swift in Sources */,
 				37D5C52F28AE0F61001A6785 /* Storable.swift in Sources */,
 				377C5B0A28AB67DC00B94052 /* Array.swift in Sources */,
+				37EAF49328C8DD5200AC94E6 /* Toast.swift in Sources */,
 				37A5A66D28A5CC880053DCE2 /* SageDiningMenuItems.swift in Sources */,
 				37A5A65728A4E3EE0053DCE2 /* MySchoolAppEventList.swift in Sources */,
 				37F9D5BA28B6617D00DAA95E /* LunchDetailView.swift in Sources */,
@@ -655,6 +710,7 @@
 				37F9D5B328B6617D00DAA95E /* CalendarFilterView.swift in Sources */,
 				37F9D5B428B6617D00DAA95E /* TodayHeaderView.swift in Sources */,
 				37D5C51428ACB3B7001A6785 /* TwitterAPI.swift in Sources */,
+				37EAF49528C8DD5C00AC94E6 /* DropdownToast.swift in Sources */,
 				372F7BB928AAD71700D01A84 /* Color.swift in Sources */,
 				37F9D5B028B6617D00DAA95E /* SettingsView.swift in Sources */,
 				37F9D5B928B6617D00DAA95E /* CalendarView.swift in Sources */,
@@ -684,6 +740,7 @@
 				37A5A63C28A42F380053DCE2 /* SettingsView.swift in Sources */,
 				37A5A65E28A4E47C0053DCE2 /* MySchoolAppContext.swift in Sources */,
 				37F9D53728B41B8E00DAA95E /* MySchoolAppScheduleList.swift in Sources */,
+				375AA3A428BE96AF002C71DD /* MySchoolAppDatabase.xcdatamodel in Sources */,
 				37A5A65B28A4E40B0053DCE2 /* MySchoolAppSchoolContext.swift in Sources */,
 				37A5A64528A4AFDD0053DCE2 /* WebView.swift in Sources */,
 				377C5B0528AB2D5300B94052 /* Date.swift in Sources */,
@@ -702,6 +759,7 @@
 				372F7BBA28AAD71700D01A84 /* Color.swift in Sources */,
 				372F7BB128AAADB300D01A84 /* CalendarView.swift in Sources */,
 				37A5A66328A5C7EE0053DCE2 /* LunchDetailView.swift in Sources */,
+				37FB9B6F28BE8B1100369684 /* MySchoolAppDataManager.swift in Sources */,
 				372F7BB728AAD29700D01A84 /* URLRequest.swift in Sources */,
 				372F7BA728A8D17700D01A84 /* MySchoolAppCalendarList.swift in Sources */,
 				37A5A62C28A3982E0053DCE2 /* CAApp.swift in Sources */,
@@ -720,10 +778,12 @@
 				37F9D59128B660B300DAA95E /* MySchoolAppScheduleList.swift in Sources */,
 				37F9D5AD28B660B300DAA95E /* MySchoolAppAPI.swift in Sources */,
 				37F9D5A528B660B300DAA95E /* SageDiningMenuItems.swift in Sources */,
+				375AA3A528BE96AF002C71DD /* MySchoolAppDatabase.xcdatamodel in Sources */,
 				37F9D59428B660B300DAA95E /* TwitterAPI.swift in Sources */,
 				37F9D59028B6607C00DAA95E /* Array.swift in Sources */,
 				37F9D59D28B660B300DAA95E /* Cache.swift in Sources */,
 				37F9D58A28B6606700DAA95E /* JSONDecoder.swift in Sources */,
+				375AA39E28BE95DA002C71DD /* MySchoolAppDataManager.swift in Sources */,
 				37FB9B5D28BCF7BD00369684 /* ScheduleWidgetSmallView.swift in Sources */,
 				37F9D5C228B7CAA700DAA95E /* LunchWidgetLargeView.swift in Sources */,
 				37F9D5D628B8016B00DAA95E /* LetterDayWidgetAccessoryCircularView.swift in Sources */,
@@ -917,6 +977,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "CA (iOS).entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = V4VMBJ7UGG;
@@ -938,6 +999,7 @@
 				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jimphieffer.CA;
 				PRODUCT_NAME = CA;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1127,6 +1189,14 @@
 				minimumVersion = 0.1.4;
 			};
 		};
+		37EAF48E28C4315400AC94E6 /* XCRemoteSwiftPackageReference "AlertToast" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/elai950/AlertToast.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1139,6 +1209,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 37D5C53028AE2439001A6785 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
 			productName = Introspect;
+		};
+		37EAF48F28C4315400AC94E6 /* AlertToast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 37EAF48E28C4315400AC94E6 /* XCRemoteSwiftPackageReference "AlertToast" */;
+			productName = AlertToast;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

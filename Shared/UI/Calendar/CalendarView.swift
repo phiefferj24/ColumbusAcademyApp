@@ -124,7 +124,7 @@ struct CalendarView: View {
     
     @Published var schedule: Result<MySchoolAppScheduleList, Error>?
     
-    @AppStorage("app.calendar.selections") var selections: Storable<[String: [String: Bool]]> = Storable([String: [String: Bool]]())
+    @AppStorage("app.calendar.selections", store: UserDefaults(suiteName: "group.com.jimphieffer.CA")) var selections: Storable<[String: [String: Bool]]> = Storable([String: [String: Bool]]())
     
     @Published var currentCalendarTask: Task<Void, Error>?
     @Published var currentMenuTask: Task<Void, Error>?
@@ -211,7 +211,7 @@ struct CalendarView: View {
                 if selections.value[calendar.calendarId] == nil {
                     selections.value[calendar.calendarId] = [:]
                     for filter in calendar.filters ?? [] {
-                        selections.value[calendar.calendarId]![filter.calendarId] = filter.selected ?? false
+                        selections.value[calendar.calendarId]![filter.calendarId] = selections.value[calendar.calendarId]![filter.calendarId] ?? false
                     }
                 }
             }

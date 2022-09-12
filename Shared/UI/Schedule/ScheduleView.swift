@@ -64,39 +64,3 @@ struct ScheduleView: View {
         }
     }
 }
-
-/*
-
- */
-
-/*
- ScrollView {
-     ZStack {
-         VStack {
-             ForEach(hours, id: \.self) { hour in
-                 HStack(alignment: .top) {
-                     HStack(spacing: 10) {
-                         Text(hour)
-                             .foregroundColor(.secondary)
-                             .fontWeight(.semibold)
-                             .font(.caption2)
-                         VStack {
-                             Divider()
-                         }
-                     }
-                 }.frame(height: 60)
-             }
-         }.padding(10)
-         VStack {
-             ForEach(schedule, id: \.sectionId) { item in
-                 let _ = print(formatter.date(from: item.myDayStartTime), formatter.date(from: item.myDayEndTime))
-                 if let startTime = formatter.date(from: item.myDayStartTime), let endTime = formatter.date(from: item.myDayEndTime) {
-                     Rectangle().position(y: startTime.timeIntervalSince(Date().start()) / 60)
-                         .frame(height: endTime.timeIntervalSince(startTime) / 60)
-                 }
-                 //Rectangle().position(y: item.startTime)
-             }
-         }.padding(30)
-     }
- }.frame(height: 360)
- */

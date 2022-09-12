@@ -10,9 +10,8 @@ import SwiftUI
 @main
 struct CAApp: App {
     @StateObject var loginViewModel = LoginViewModel()
-    var autoLogin: Bool {
-        UserDefaults(suiteName: "group.com.jimphieffer.CA")!.bool(forKey: "app.settings.autoLogin")
-    }
+    
+    @AppStorage("app.settings.autoLogin", store: UserDefaults(suiteName: "group.com.jimphieffer.CA")) var autoLogin: Bool = false
     
     var body: some Scene {
         WindowGroup {
@@ -31,11 +30,17 @@ struct CAApp: App {
                 }
             }.sheet(isPresented: $loginViewModel.shown) {
                 LoginView(loginViewModel: loginViewModel)
+            }.toast(isPresenting: $loginViewModel.loginToastModel.shown, expiresAfter: 4.0) {
+                loginViewModel.loginToastModel.toast
             }.onAppear {
                 NotificationCenter.default.addObserver(forName: Notification.Name("api.myschoolapp.needsUserLogin"), object: nil, queue: OperationQueue.main) { _ in
                     if autoLogin {
-                        loginViewModel.shown = true
+                        loginViewModel.open()
                     }
+                }
+            }.task {
+                for index in 0..<7 {
+                    _ = try? await MySchoolAppAPI.shared.getSchedule(for: Date().start() + (Double(index) * 86400.0))
                 }
             }
         }

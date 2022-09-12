@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21277" systemVersion="21G83" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="MySchoolAppCalendarListElementEntity" representedClassName="MySchoolAppCalendarListElementEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="associationId" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="backgroundColor" optional="YES" attributeType="String"/>
+        <attribute name="calendar" attributeType="String"/>
+        <attribute name="calendarId" attributeType="String"/>
+        <attribute name="filterLeadPk" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="filterName" optional="YES" attributeType="String"/>
+        <relationship name="filters" toMany="YES" deletionRule="Nullify" destinationEntity="MySchoolAppCalendarListElementEntity" inverseName="filters" inverseEntity="MySchoolAppCalendarListElementEntity"/>
+        <relationship name="relationship" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MySchoolAppCalendarListEntity" inverseName="relationship" inverseEntity="MySchoolAppCalendarListEntity"/>
+    </entity>
+    <entity name="MySchoolAppCalendarListEntity" representedClassName="MySchoolAppCalendarListEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="endDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="relationship" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="MySchoolAppCalendarListElementEntity" inverseName="relationship" inverseEntity="MySchoolAppCalendarListElementEntity"/>
+    </entity>
+    <entity name="MySchoolAppEventListElementEntity" representedClassName="MySchoolAppEventListElementEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="allDay" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="briefDescription" attributeType="String"/>
+        <attribute name="endDate" attributeType="String"/>
+        <attribute name="eventId" attributeType="Integer 32" usesScalarValueType="YES"/>
+        <attribute name="groupId" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="startDate" attributeType="String"/>
+        <attribute name="title" attributeType="String"/>
+        <relationship name="relationship" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MySchoolAppEventListEntity" inverseName="relationship" inverseEntity="MySchoolAppEventListEntity"/>
+    </entity>
+    <entity name="MySchoolAppEventListEntity" representedClassName="MySchoolAppEventListEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="endDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="startDate" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="relationship" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="MySchoolAppEventListElementEntity" inverseName="relationship" inverseEntity="MySchoolAppEventListElementEntity"/>
+    </entity>
+    <entity name="MySchoolAppScheduleListElementEntity" representedClassName="MySchoolAppScheduleListElementEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="block" attributeType="String"/>
+        <attribute name="buildingName" attributeType="String"/>
+        <attribute name="courseTitle" attributeType="String"/>
+        <attribute name="endTime" attributeType="String"/>
+        <attribute name="myDayEndTime" attributeType="String"/>
+        <attribute name="myDayStartTime" attributeType="String"/>
+        <attribute name="roomNumber" attributeType="String"/>
+        <attribute name="startTime" attributeType="String"/>
+        <relationship name="relationship" maxCount="1" deletionRule="Nullify" destinationEntity="MySchoolAppScheduleListEntity" inverseName="relationship" inverseEntity="MySchoolAppScheduleListEntity"/>
+    </entity>
+    <entity name="MySchoolAppScheduleListEntity" representedClassName="MySchoolAppScheduleListEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="relationship" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="MySchoolAppScheduleListElementEntity" inverseName="relationship" inverseEntity="MySchoolAppScheduleListElementEntity"/>
+    </entity>
+</model>
